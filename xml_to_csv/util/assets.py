@@ -1,5 +1,5 @@
 from flask_assets import Bundle, Environment
-from . import XML2CSV
+from .. import XML2CSV
 
 bundles = {
     'javascript_source':Bundle(

@@ -10,15 +10,15 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <link href='https://fonts.googleapis.com/css?family=Lobster|Cabin' rel='stylesheet' type='text/css'>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      
-      <link rel="stylesheet" href="\static\css\Mystyle.css" type="text/css">
-      
+      {%assets "css_source"%}
+      <link rel="stylesheet" href="{{ASSET_URL}}" type="text/css">
+      {%endassets%}
       <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
    </head>
    <div id="header1">
-      <i class="fa fa-github" id="gotogithub"></i>
+      <i class="fa fa-file-code-o" id="gotogithub"></i>
       <h2>XML TO CSV PROJECT</h2>
    </div>
    <body>
@@ -30,10 +30,10 @@
       <div id="gototop"></div>
    </div>
    <div class="text-center panel">
-      <p>'DELOITTE FI' : A project by <a href="https://codepen.io/vikster098/" id="myself">Vikrant Deshpande</a></p>
+      <p>A Deloitte Firm-Initiative Project by <a href="https://codepen.io/vikster098/" id="myself">Vikrant Deshpande</a></p>
    </div>
 
-   
+   {%assets "javascript_source"%}
    <script src="{{ ASSET_URL }}"></script>
-   
+   {%endassets%}
 </html>

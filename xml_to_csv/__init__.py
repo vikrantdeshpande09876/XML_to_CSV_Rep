@@ -1,10 +1,8 @@
 from flask import Flask, render_template, redirect
-from xml_to_csv import assets
 from xml_to_csv.forms import LoginForm
-import os
-
 XML2CSV=Flask(__name__)
-XML2CSV.config['SECRET_KEY']=os.environ.get('SECRET_KEY') or 'vdeshpande@deloitte.com-ismyemail'
+from .util import assets
+XML2CSV.config.from_object('config')
 
 @XML2CSV.route('/')
 def homepage_default():
