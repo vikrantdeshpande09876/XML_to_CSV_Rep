@@ -5,7 +5,7 @@ $(document).ready(function(){
       $("body").css({"margin-top":"200px"});
       $("#loading").remove();
       $("#root").css('visibility','visible');
-    },2000);
+    },1000);
     
     
     $("h2","#header1").on('click',function(){
