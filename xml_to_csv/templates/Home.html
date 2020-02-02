@@ -1,0 +1,24 @@
+{%extends 'base.html'%} {%block content%}
+<div id="root" class="container">
+    <h1>Home | XML2CSV</h1>
+    {%with messages = get_flashed_messages()%} {%if messages%}
+    <ul style="color:red">
+        {%for msg in messages%}
+        <li>{{msg}}</li>
+        {%endfor%}
+    </ul>
+    {%endif%} {%endwith%}
+    <form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
+        <h5><b>File Type:</b></h5>
+        <label>XML<input type="radio" name="ftype" value="XML"></label>
+
+        <label>XSD<input type="radio" name="ftype" value="XSD"></label>
+        <br>
+        <br>
+        <input type="file" name="filename" id="fileid">
+        <br>
+        <br>
+        <button type="submit">Proceed</button>
+    </form>
+</div>
+{%endblock%}
