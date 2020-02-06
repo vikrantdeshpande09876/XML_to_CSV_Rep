@@ -1,0 +1,25 @@
+ '''<ul>
+        {%for row in dataframe%} 
+            {% if row[1] > lvl %} IF NESTING_LEVEL GT LVL CONDITION 
+            <br>
+            {%min=lvl%}
+            {%lvl=row[1]%}
+            <ul>
+                <li>
+                    <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}">Nesting_Level={{row[1]}}. {{row[0]}} --NewLvl= {{lvl}}     min= {{min}}
+                </li>
+            </ul>
+            {%elif row[1]==lvl %} ELIF NESTING_LEVEL == LVL CONDITION 
+            <li>
+                <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}">Nesting_Level={{row[1]}}. {{row[0]}} --Lvl= {{lvl}}     min= {{min}}
+            </li>
+            <br> 
+            {%else%} ELSE CONDITION NESTING_LEVEL LT LVL CONDITION
+            {%lvl=min%}
+            <li>
+                <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}">Nesting_Level={{row[1]}}. {{row[0]}} --NewLvl= {{lvl}}     min= {{min}}
+            </li>
+            <br>
+            {%endif%} 
+        {%endfor%}
+    </ul>'''

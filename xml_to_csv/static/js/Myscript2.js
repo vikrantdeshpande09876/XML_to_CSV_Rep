@@ -26,4 +26,8 @@ $(document).ready(function(){
           $("#gototop").removeClass('show');
         }
       });
+      function display_XML_Checkboxes(z){
+        console.log(z);
+        $("#result_xml_checkboxes").append(z);
+      }
 });

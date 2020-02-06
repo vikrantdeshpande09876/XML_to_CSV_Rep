@@ -1,0 +1,66 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Tag1">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RootTag1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ParentTag1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ChildTag1"/>
+                    <xs:element type="xs:string" name="ChildTag2"/>
+                    <xs:element type="xs:string" name="ChildTag3"/>
+                    <xs:element type="xs:string" name="ChildTag4"/>
+                    <xs:element type="xs:string" name="ChildTag5"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ParentTag2">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ChildTag11"/>
+                    <xs:element type="xs:string" name="ChildTag22"/>
+                    <xs:element type="xs:string" name="ChildTag33"/>
+                    <xs:element type="xs:string" name="ChildTag44"/>
+                    <xs:element type="xs:string" name="ChildTag55"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="uniqueId"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RootTag2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ParentTag1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ChildTag1"/>
+                    <xs:element type="xs:string" name="ChildTag2"/>
+                    <xs:element type="xs:string" name="ChildTag3"/>
+                    <xs:element type="xs:string" name="ChildTag4"/>
+                    <xs:element type="xs:string" name="ChildTag5"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ParentTag2">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ChildTag11"/>
+                    <xs:element type="xs:string" name="ChildTag22"/>
+                    <xs:element type="xs:string" name="ChildTag33"/>
+                    <xs:element type="xs:string" name="ChildTag44"/>
+                    <xs:element type="xs:string" name="ChildTag55"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="uniqueId"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -8,5 +8,19 @@
         {%endfor%}
     </ul>
     {%endif%} {%endwith%}
+
+    <p id="sample"></p>
+
+    <br> 
+    {%if dataframe%}
+        <h2 id="result_xml_checkboxes" style="display:none;">
+            {{dataframe}}
+        </h2>    
+    {%endif%}
+    {%assets "javascript_result"%}
+    <script src="{{ ASSET_URL }}"></script>
+    {%endassets%}
+    
+
 </div>
 {%endblock%}
