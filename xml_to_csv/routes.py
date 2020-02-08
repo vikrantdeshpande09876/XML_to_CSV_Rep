@@ -1,9 +1,18 @@
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, g
 from .forms import LoginForm
 from . import XML2CSV
 from .main import Main
 import os
 from json import dumps
+
+def getglobal(key):
+    return g.get(key)
+XML2CSV.jinja_env.globals.update(GET_GLOBAL=getglobal,)
+
+def setglobal(key,val):
+    setattr(g,key,val)
+    return ''
+XML2CSV.jinja_env.globals.update(SET_GLOBAL=setglobal,)
 
 @XML2CSV.context_processor
 def utility_functions():
@@ -66,8 +75,8 @@ def result():
             main.write_dataframe_to_csv(XML2CSV.config['UPLOAD_DIR'],session['filename'],df_tag_nesting,',')
             session.clear()
         else:
-            print("Could not find session variables!")
+            flash("Could not find session variables! Please try to refresh the page.")
     else:
         flash('You must be signed in to view that page!')
         return redirect('/login')
-    return render_template('Result.html',dataframe=dumps(main.arr_tag_nesting), title="Result | XML2CSV")
+    return render_template('Result_XML_Checkboxes_Bkp.html',dataframe=main.arr_tag_nesting, title="Result | XML2CSV")

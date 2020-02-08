@@ -9,18 +9,71 @@
     </ul>
     {%endif%} {%endwith%}
 
-    <p id="sample"></p>
-
-    <br> 
     {%if dataframe%}
-        <h2 id="result_xml_checkboxes" style="display:none;">
-            {{dataframe}}
-        </h2>    
-    {%endif%}
-    {%assets "javascript_result"%}
-    <script src="{{ ASSET_URL }}"></script>
-    {%endassets%}
-    
+    {{SET_GLOBAL('lvl',0)}}
+    {{SET_GLOBAL('min',0)}}
+    {{SET_GLOBAL('open_ul',0)}}
+    {{SET_GLOBAL('open_li',0)}}
+    <ul>
+        {%for row in dataframe%}
+            {% if row[1] > GET_GLOBAL('lvl') %}
+            <ul>
+                <li>
+                    <label>
+                        <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}"><b>{{row[0]}}</b>
+                    </label>
+            {{SET_GLOBAL('min',GET_GLOBAL('lvl'))}}
+            {{SET_GLOBAL('lvl',row[1])}}
+            {{SET_GLOBAL('open_li',GET_GLOBAL('open_li')+1)}}
+            {{SET_GLOBAL('open_ul',GET_GLOBAL('open_ul')+1)}}
 
+            {%elif row[1]==GET_GLOBAL('lvl')%}
+            {%if GET_GLOBAL('open_li')>0%}
+            </li>
+            {{SET_GLOBAL('open_li',GET_GLOBAL('open_li')-1)}}
+            {%endif%}
+            <li>
+                <label>
+                    <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}"><b>{{row[0]}}</b>
+                </label>
+            </li>
+
+            {%else%}
+            {%for _ in range(GET_GLOBAL('lvl')-row[1])%}
+                {%if GET_GLOBAL('open_ul')>0%}
+                    <br>
+                    </ul>
+                    {{SET_GLOBAL('open_ul',GET_GLOBAL('open_ul')-1)}}
+                {%endif%}
+                {%if GET_GLOBAL('open_li')>0%}
+                    <br>
+                    </li>
+                    {{SET_GLOBAL('open_li',GET_GLOBAL('open_li')-1)}}
+                {%endif%}
+            {%endfor%}
+            <li>
+                <label>
+                    <input type="checkbox" name="{{row[0]}}" value="{{row[0]}}"><b>{{row[0]}}</b>
+                </label>
+            </li>
+            {{SET_GLOBAL('lvl',row[1])}}
+            {%endif%} 
+        {%endfor%}
+        
+        {%if GET_GLOBAL('open_li')>0%}
+            {%for x in range(GET_GLOBAL('open_li'))%}
+                </li>
+            {%endfor%}
+            {{SET_GLOBAL('open_li',0)}}
+        {%endif%}
+
+        {%if GET_GLOBAL('open_ul')>0%}
+            {%for x in range(GET_GLOBAL('open_ul'))%}
+                </ul>
+            {%endfor%}
+            {{SET_GLOBAL('open_ul',0)}}
+        {%endif%}
+    </ul>
+    {%endif%}
 </div>
 {%endblock%}

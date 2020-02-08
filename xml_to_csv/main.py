@@ -47,6 +47,12 @@ class Main:
         for child in element.getchildren():
                 self.generate_tag_nesting(child,callbackfunc,arr_tag_nesting,ftype,level+1)
     
+    def retrieve_arr_dict(self,arr_tag_nesting):
+        arr_dict=[]
+        for arr in arr_tag_nesting:
+            arr_dict.append(dict(arr))
+        print(arr_dict)
+        return arr_dict
     
     def retrieve_dataframe(self,arr_tag_nesting):
         ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the resultant 2D array
