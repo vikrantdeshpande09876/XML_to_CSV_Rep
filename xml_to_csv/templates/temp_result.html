@@ -1,0 +1,23 @@
+{%extends 'base.html'%} {%block content%}
+<div id="root" class="container">
+    <h1>Result | XML2CSV</h1>
+    {%with messages = get_flashed_messages()%} {%if messages%}
+    <ul style="color:red">
+        {%for msg in messages%}
+        <li>{{msg}}</li>
+        {%endfor%}
+    </ul>
+    {%endif%} 
+    {%endwith%}
+
+    {%if dataframe%}
+        {{dataframe}}
+    {%endif%}
+
+    {%assets "javascript_result"%}
+    <script src="{{ASSET_URL}}"></script>
+    {%endassets%}
+    <div id="result"></div>
+
+</div>
+{%endblock%}

@@ -8,7 +8,11 @@
         {%endfor%}
     </ul>
     {%endif%} {%endwith%}
-    <form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
+
+    {%assets "javascript_result"%}
+    <script src="{{ASSET_URL}}"></script>
+    {%endassets%}
+
         <h5><b>File Type:</b></h5>
         <label>XML<input type="radio" name="ftype" value="XML"></label>
 
@@ -18,7 +22,7 @@
         <input type="file" name="filename" id="fileid">
         <br>
         <br>
-        <button type="submit">Proceed</button>
-    </form>
+        <input type="button" value="Load" id="load">
+        <p id="res"></p>
 </div>
 {%endblock%}

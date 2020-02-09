@@ -42,24 +42,6 @@ def login():
 @XML2CSV.route('/home',methods=['GET','POST'])
 def home():
     if 'validated' in session:
-        if request.method=='POST' and request.files:
-            if str.lower('.'+request.form['ftype']) in request.files['filename'].filename:
-                selected_file=request.files['filename']
-                filename=selected_file.filename
-                selected_ftype=request.form['ftype']
-                path=os.path.join(XML2CSV.config['UPLOAD_DIR'],filename)
-                try:
-                    selected_file.save(path)
-                    session['path']=path
-                    session['selected_ftype']=selected_ftype
-                    session['filename']=filename
-                    flash(selected_ftype+" file "+filename+" saved successfully! Uploaded at: "+str(path))
-                except Exception as e:
-                    flash("File couldn't be saved! \n"+e)
-                return redirect('/result')
-            else:
-                flash('Please ensure you upload the correct file format!')
-                return redirect('/login')
         return render_template('Home.html',title='Home | XML2CSV')
     else:
         flash('You must be signed in to view that page!')
