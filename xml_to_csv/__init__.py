@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect
-import jinja2
 
 XML2CSV=Flask(__name__)
 

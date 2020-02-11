@@ -3,23 +3,7 @@ from .forms import LoginForm
 from . import XML2CSV
 from .main import Main
 import os
-from json import dumps
-
-def getglobal(key):
-    return g.get(key)
-XML2CSV.jinja_env.globals.update(GET_GLOBAL=getglobal,)
-
-def setglobal(key,val):
-    setattr(g,key,val)
-    return ''
-XML2CSV.jinja_env.globals.update(SET_GLOBAL=setglobal,)
-
-@XML2CSV.context_processor
-def utility_functions():
-    def print_in_console(m1):
-        print (m1)
-    return dict(mdebug=print_in_console)
-
+import json
 
 @XML2CSV.route('/')
 def homepage_default():
@@ -28,7 +12,7 @@ def homepage_default():
 @XML2CSV.route('/login',methods=['GET','POST'])
 def login():
     if 'validated' in session:
-        return redirect('/home')
+        return render_template('Home.html',title='Home | XML2CSV')
     form=LoginForm()
     if form.validate_on_submit():
         if str.lower(form.username.data)=='v' and form.password.data=='v':
@@ -47,18 +31,21 @@ def home():
         flash('You must be signed in to view that page!')
         return redirect('/login')
 
-@XML2CSV.route('/result')
+
+@XML2CSV.route('/result',methods=['POST'])
 def result():
     if 'validated' in session:
-        if 'filename' in session and 'selected_ftype' in session and 'path' in session:
-            main=Main()
-            main.exec_main_functions(session['path'], session['selected_ftype'])
-            df_tag_nesting=main.retrieve_dataframe(main.arr_tag_nesting)
-            main.write_dataframe_to_csv(XML2CSV.config['UPLOAD_DIR'],session['filename'],df_tag_nesting,',')
+            for key in request.form.keys():
+                data=key
+            print("The raw data is= "+str(data))    #retrieves a JSON object with 0th element as our passed object from JS
+            res_array=json.loads(data)['res_array']
+            print("\n\nThe data_dictionary is= "+str(res_array))
             session.clear()
-        else:
-            flash("Could not find session variables! Please try to refresh the page.")
+            main=Main()
+            df=main.retrieve_dataframe(res_array)
+            print("\n\n\nThe final dataframe is:\n")
+            print(df)
     else:
         flash('You must be signed in to view that page!')
         return redirect('/login')
-    return render_template('Result_XML_Checkboxes_Bkp.html',dataframe=main.arr_tag_nesting, title="Result | XML2CSV")
+    return render_template('Result.html',title="Result | XML2CSV")

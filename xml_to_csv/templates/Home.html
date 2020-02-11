@@ -12,17 +12,18 @@
     {%assets "javascript_result"%}
     <script src="{{ASSET_URL}}"></script>
     {%endassets%}
-
+    <br><br>
+        
         <h5><b>File Type:</b></h5>
-        <label>XML<input type="radio" name="ftype" value="XML"></label>
-
+        <label>XML<input type="radio" name="ftype" value="XML"></label><br>
         <label>XSD<input type="radio" name="ftype" value="XSD"></label>
-        <br>
         <br>
         <input type="file" name="filename" id="fileid">
         <br>
         <br>
         <input type="button" value="Load" id="load">
         <p id="res"></p>
+        <button type="submit"  id="sendDataToFlask">Proceed</button>
+    
 </div>
 {%endblock%}
