@@ -1,25 +1,10 @@
-from flask import Flask, render_template, redirect, request, flash, session, g
+from flask import Flask, render_template, redirect, request, flash, session, render_template_string
 from .forms import LoginForm
 from . import XML2CSV
 from .main import Main
+from .tempmain import TempMain
 import os
-from json import dumps
-
-def getglobal(key):
-    return g.get(key)
-XML2CSV.jinja_env.globals.update(GET_GLOBAL=getglobal,)
-
-def setglobal(key,val):
-    setattr(g,key,val)
-    return ''
-XML2CSV.jinja_env.globals.update(SET_GLOBAL=setglobal,)
-
-@XML2CSV.context_processor
-def utility_functions():
-    def print_in_console(m1):
-        print (m1)
-    return dict(mdebug=print_in_console)
-
+import json
 
 @XML2CSV.route('/')
 def homepage_default():
@@ -56,7 +41,7 @@ def home():
                     flash(selected_ftype+" file "+filename+" saved successfully! Uploaded at: "+str(path))
                 except Exception as e:
                     flash("File couldn't be saved! \n"+e)
-                return redirect('/result')
+                return redirect('/home/displayTags')
             else:
                 flash('Please ensure you upload the correct file format!')
                 return redirect('/login')
@@ -80,3 +65,45 @@ def result():
         flash('You must be signed in to view that page!')
         return redirect('/login')
     return render_template('Result_XML_Checkboxes_Bkp.html',dataframe=main.arr_tag_nesting, title="Result | XML2CSV")
+
+
+
+
+
+
+
+
+
+
+
+@XML2CSV.route('/home/displayTags',methods=['GET','POST'])
+def displayTags():
+    if 'validated' in session:
+        if 'filename' in session and 'selected_ftype' in session and 'path' in session:
+            tempmain=TempMain()
+            overallstring=tempmain.exec_main_functions(session['path'], session['selected_ftype'])
+            overallstring='{%extends "base.html"%}{%block content%}'+'{%assets "javascript_result"%}<script src="{{ ASSET_URL }}"></script>{%endassets%}<div id="root"><h1>'+session['filename']+' Tags | XML2CSV</h2>'+overallstring+'</div>{%endblock%}'
+        else:
+            flash("Could not find session variables! Please try to refresh the page.")
+    else:
+        flash('You must be signed in to view that page!')
+        return redirect('/login')
+    return render_template_string(overallstring, title="Result | XML2CSV")
+
+
+
+@XML2CSV.route('/home/result',methods=['GET','POST'])
+def home_result():
+    if 'validated' in session:
+        for key in request.form.keys():
+                data=key
+        #print("The raw data is= "+str(data))    #retrieves a JSON object with 0th element as our passed object from JS
+        res_array=json.loads(data)['res_array']
+        session.clear()
+        main=Main()
+        df=main.retrieve_dataframe(res_array)
+        print("\n\n\nThe final dataframe is:\n"+df)
+    else:
+        flash('You must be signed in to view that page!')
+        return redirect('/login')
+    return render_template('Result.html', title="Result | XML2CSV")
