@@ -26,7 +26,10 @@ $(document).ready(function(){
       type:'POST',
       url:generateServerURL('home/result'),
       data:JSON.stringify(json_res_array),
-      datatype:'json'
+      datatype:'json',
+      success:function (){
+        window.location.href=generateServerURL('result')
+      }
     }).done(function(){
       console.log('Your data is now sent. Data='+JSON.stringify(json_res_array));
     });

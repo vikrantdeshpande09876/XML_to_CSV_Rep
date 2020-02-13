@@ -2,9 +2,9 @@ from flask import Flask, render_template, redirect, request, flash, session, ren
 from .forms import LoginForm
 from . import XML2CSV
 from .main import Main
-from .tempmain import TempMain
 import os
 import json
+from re import sub
 
 @XML2CSV.route('/')
 def homepage_default():
@@ -53,18 +53,11 @@ def home():
 @XML2CSV.route('/result')
 def result():
     if 'validated' in session:
-        if 'filename' in session and 'selected_ftype' in session and 'path' in session:
-            main=Main()
-            main.exec_main_functions(session['path'], session['selected_ftype'])
-            df_tag_nesting=main.retrieve_dataframe(main.arr_tag_nesting)
-            main.write_dataframe_to_csv(XML2CSV.config['UPLOAD_DIR'],session['filename'],df_tag_nesting,',')
-            session.clear()
-        else:
-            flash("Could not find session variables! Please try to refresh the page.")
+        print("Hello Vikrant Deshpande")
     else:
         flash('You must be signed in to view that page!')
         return redirect('/login')
-    return render_template('Result_XML_Checkboxes_Bkp.html',dataframe=main.arr_tag_nesting, title="Result | XML2CSV")
+    return render_template('Result.html', title="Result | XML2CSV")
 
 
 
@@ -80,9 +73,9 @@ def result():
 def displayTags():
     if 'validated' in session:
         if 'filename' in session and 'selected_ftype' in session and 'path' in session:
-            tempmain=TempMain()
-            overallstring=tempmain.exec_main_functions(session['path'], session['selected_ftype'])
-            overallstring='{%extends "base.html"%}{%block content%}'+'{%assets "javascript_result"%}<script src="{{ ASSET_URL }}"></script>{%endassets%}<div id="root"><h1>'+session['filename']+' Tags | XML2CSV</h2>'+overallstring+'</div>{%endblock%}'
+            main=Main()
+            overallstring=main.exec_main_functions(session['path'], session['selected_ftype'])
+            overallstring='{%extends "base.html"%}{%block content%}'+'{%assets "javascript_result"%}<script src="{{ ASSET_URL }}"></script>{%endassets%}<div id="root" class="container"><h1>'+session['filename']+' Tags | XML2CSV</h2>'+overallstring+'</div>{%endblock%}'
         else:
             flash("Could not find session variables! Please try to refresh the page.")
     else:
@@ -95,14 +88,21 @@ def displayTags():
 @XML2CSV.route('/home/result',methods=['GET','POST'])
 def home_result():
     if 'validated' in session:
-        for key in request.form.keys():
-                data=key
-        #print("The raw data is= "+str(data))    #retrieves a JSON object with 0th element as our passed object from JS
-        res_array=json.loads(data)['res_array']
-        session.clear()
-        main=Main()
-        df=main.retrieve_dataframe(res_array)
-        print("\n\n\nThe final dataframe is:\n"+df)
+        if 'filename' in session and 'selected_ftype' in session and 'path' in session:
+            for key in request.form.keys():
+                    data=key
+            #print("The raw data is= "+str(data))    #retrieves a JSON object with 0th element as our passed object from JS
+            res_array=json.loads(data)['res_array']
+            try:
+                main=Main()
+                df=main.retrieve_dataframe(res_array)
+                main.write_dataframe_to_csv(sub(session['filename'],'',session['path']),session['filename'],df,'|')
+                print("Your dataframe was written successfully into the config.csv File!")
+            except Exception as e:
+                print("Could not process into the config.csv File! Error is: "+str(e))
+        else:
+            print("Could not find the session variables. Please retry.")
+            return redirect('/login')
     else:
         flash('You must be signed in to view that page!')
         return redirect('/login')

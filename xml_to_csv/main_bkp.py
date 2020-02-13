@@ -3,29 +3,8 @@ from lxml import etree as ET
 import pandas as pd
 from flask import flash
 
-temp_depth=0
 
-
-class MyNode:
-    def __init__(self, tag, parent):
-        self.tag = tag
-        self.parent = parent
-    
-    def add_children(self, children):
-        self.children = children
-  
-
-
-def dfs(node, parent):
-    children = []
-    thisNode = MyNode(node.tag, parent)
-    for child in node:
-        children.append(dfs(child, thisNode))
-    thisNode.add_children(children)
-    return thisNode
-
-
-class TempMain:
+class Main:
     def __init__(self):
         ''' DOCSTRING:  Default constructor of class. 
                         It initializes an empty 2-d array for our tags.
@@ -35,15 +14,10 @@ class TempMain:
        
         
     def exec_main_functions(self,path,ftype):
-        ''' DOCSTRING:  Parent function to parse the selected XML File and invoke Depth-First-Search
-                        to generate string of nested list-element HTML tags.
+        ''' DOCSTRING:  Parent function to parse the selected XML File and invoke the child function for generating 2-d array of tags
             INPUT:      Absolute_File_Location, Type_of_File
             OUTPUT:     N/A '''
-        tree=ET.parse(path)
-        #self.generate_tag_nesting(tree.getroot(),self.insert_tag_info,self.arr_tag_nesting,ftype,level=0)
-        overallstring='<ul>'+self.depthFirst(tree.getroot(),0,'')+"""</ul>
-                        <button type="submit"  id="sendDataToCSV">Proceed</button>"""
-        return overallstring
+        self.generate_tag_nesting(ET.parse(path).getroot(),self.insert_tag_info,self.arr_tag_nesting,ftype,level=0)
 
 
     def insert_tag_info(self,node,arr_tag_nesting,ftype,level):
@@ -58,26 +32,6 @@ class TempMain:
         else:
             arr_tag_nesting.append([node.attrib['name'],level])
 
-
-
-    def depthFirst(self, node, depth, tagname):
-        global temp_depth
-        if tagname!='':
-          tagname+='.'+node.tag
-        else:
-          tagname=node.tag
-        text='<br><li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.tag+' has depth='+str(depth)+'</b> and tempdepth='+str(temp_depth)+'</label>'
-        if depth>temp_depth:
-          text='<ul>'+text
-        #print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
-        temp_depth=depth
-        for child in node.getchildren():
-          text += self.depthFirst(child, depth+1,tagname)
-        if depth<temp_depth: 
-          while depth!=temp_depth:
-            text+='</ul>'
-            temp_depth-=1  
-        return text+'</li>'
 
     def generate_tag_nesting(self,element,callbackfunc, arr_tag_nesting, ftype, level=0):
         ''' DOCSTRING:  Sub-Parent Function which invokes the utility/doer function. 
