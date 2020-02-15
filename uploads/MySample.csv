@@ -1,8 +1,0 @@
-INDEX|XML_TAG_NAME|NESTING_LEVEL
-0|shiporder|0
-1|shiporder.orderperson|1
-2|shiporder.shipto|2
-3|shiporder.shipto.name|3
-4|shiporder.shipto.address|4
-5|shiporder.shipto.city|5
-6|shiporder.shipto.country|6

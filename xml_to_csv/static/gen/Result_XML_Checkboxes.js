@@ -17,7 +17,7 @@ $(document).ready(function(){
     res_array=[];
     for (i=0;i<checkboxes.length;i++){
       if(checkboxes[i].checked){
-        res_array.push([checkboxes[i].id,i+'']);
+        res_array.push(['Child_Tag',''+checkboxes[i].id,i+'']);
       }
     }
     json_res_array={'res_array':res_array};

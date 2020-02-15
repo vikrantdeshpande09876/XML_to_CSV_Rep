@@ -9,10 +9,12 @@
     </ul>
     {%endif%} {%endwith%}
     <form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
-        <h5><b>File Type:</b></h5>
-        <label>XML<input type="radio" name="ftype" value="XML"></label>
-
-        <label>XSD<input type="radio" name="ftype" value="XSD"></label>
+        <h5><b>File Type: </b></h5>
+        <label><b>XML</b><input type="radio" name="ftype" value="XML"></label>
+        <label><b>XSD</b><input type="radio" name="ftype" value="XSD"></label>
+        <br>
+        <br>
+        <label><b>Destination Text-Seperator:   </b><input type="text" name="filesep" id="filesep" maxlength="1" minlength="1" size="1"></label>
         <br>
         <br>
         <input type="file" name="filename" id="fileid">

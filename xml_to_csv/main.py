@@ -7,25 +7,23 @@ temp_depth=0
 
 class Main:
     def __init__(self):
-        ''' DOCSTRING:  Default constructor of class. 
-                        It initializes an empty 2-d array for our tags.
+        ''' DOCSTRING:  Default constructor of class: Initializes an empty 2-d array for our tags.
             INPUT:      Class_Instance
             OUTPUT:     N/A '''
         self.arr_tag_nesting=[]
        
         
     def exec_main_functions(self,path,ftype):
-        ''' DOCSTRING:  Parent function to parse the selected XML File and invoke Depth-First-Search
+        ''' DOCSTRING:  Parent function to parse the selected XML/XSD File and invoke Depth-First-Search
                         to generate string of nested list-element HTML tags.
             INPUT:      Absolute_File_Location, Type_of_File
-            OUTPUT:     N/A '''
+            OUTPUT:     HTML_String '''
         tree=ET.parse(path)
-        #self.generate_tag_nesting(tree.getroot(),self.insert_tag_info,self.arr_tag_nesting,ftype,level=0)
         if ftype=='XML':
             overallstring=self.depthFirstXML(tree.getroot(),0,'')
         else:
             overallstring=self.depthFirstXSD(tree.getroot(),0,'')
-        overallstring='<ul>'+overallstring+"""</ul>
+        overallstring='<ul style="line-height:20%;">'+overallstring+"""</ul>
                         <button type="submit" id="sendDataToCSV">Send Data to CSV</button>"""
         return overallstring
 
@@ -35,36 +33,24 @@ class Main:
                         nested checkboxes.
                         The inter-linking of checkboxes by using Parent-Child hierarchy will be handled in JS.
             INPUT:      XSD_Node_Element, Depth, Temporary_Tag_Name
-            OUTPUT:     N/A '''
+            OUTPUT:     HTML_String '''
         global temp_depth
-        if 'element' in node.tag:
-            if tagname!='':
-                tagname+='.'+node.attrib['name']
-            else:
-                tagname=node.attrib['name']
-            text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>'
-            if depth>temp_depth:
-                text='<ul>'+text
-            print(node.attrib['name'] + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
+        if tagname!='':
+          tagname=tagname+'.'+node.attrib['name'] if 'element' in node.tag else tagname
         else:
-            text=''
+          tagname=node.attrib['name'] if 'element' in node.tag else ''
+        text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>' if 'element' in node.tag else ''
+        if depth>temp_depth:
+          text='<ul>'+text
+        print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
         temp_depth=depth
         for child in node.getchildren():
           text += self.depthFirstXSD(child, depth+1,tagname)
-        if 'element' in node.tag and depth<temp_depth: 
-            while depth!=temp_depth:
-                text+='</ul>'
-                temp_depth-=1  
+        if depth<temp_depth: 
+          while depth!=temp_depth:
+            text+='</ul>'
+            temp_depth-=1  
         return text+'</li>'
-
-
-
-
-
-
-
-
-
 
 
 
@@ -74,7 +60,7 @@ class Main:
                         nested checkboxes.
                         The inter-linking of checkboxes by using Parent-Child hierarchy will be handled in JS.
             INPUT:      XML_Node_Element, Depth, Temporary_Tag_Name
-            OUTPUT:     N/A '''
+            OUTPUT:     HTML_String '''
         global temp_depth
         nsdict=node.nsmap
         for ns in nsdict.values():
@@ -96,16 +82,30 @@ class Main:
             temp_depth-=1  
         return text+'</li>'
 
-    
- 
-    def retrieve_dataframe(self,arr_tag_nesting):
-        ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the resultant 2D array
+    def retrieve_template_dataframe(self,path):
+        ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the absolute path of file.
             INPUT:      2D_Array
             OUTPUT:     DataFrame '''
         try:
-            df_tag_nesting=pd.DataFrame(arr_tag_nesting,columns=['XML_TAG_NAME','NESTING_LEVEL'])
-            print(df_tag_nesting,end='\n\n')
-            return df_tag_nesting
+            df=pd.read_csv(path,encoding='utf-8')
+            return df
+        except Exception as e:
+            return "\nError reading the template dataframe from "+path+": "+e
+ 
+    def retrieve_final_dataframe(self,template_df,arr_tag_nesting):
+        ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the config file template, 
+                        2D array of XML selected tags.
+                        A key-value pair for Parent tag is statically created for Pyspark integration.
+            INPUT:      Template_DataFrame, Selected_XML_Tags_DataFrame
+            OUTPUT:     Resultant_DataFrame '''
+        try:
+            df_tag_nesting=pd.DataFrame(arr_tag_nesting,columns=['Variable','Value','TEMP']).drop(columns=['TEMP'])
+            parent_tag=df_tag_nesting['Value'].iloc[0].split('.')[0]
+            parent_tag_df=pd.DataFrame([['Parent_Tag',parent_tag]],columns=['Variable','Value'])
+            res_df=template_df.append(parent_tag_df.append(df_tag_nesting,ignore_index=True),ignore_index=True)
+            print("RES_DF=")
+            print(res_df,end='\n\n')
+            return res_df
         except Exception as e:
             return "\nError converting the 2d array into DataFrame: "+e
     
@@ -116,7 +116,7 @@ class Main:
             OUTPUT:     N/A '''
         trimmed_filename=re.sub('.xsd','',re.sub('.xml','',filename))
         try:
-            df_tag_nesting.to_csv(directory+'\\'+trimmed_filename+'.csv',sep=seperator,index=True, index_label='INDEX')
+            df_tag_nesting.to_csv(directory+'\\'+trimmed_filename+'_Config.csv',sep=seperator,index=True,index_label='ID')
             print("\nCSV File created successfully!")
         except Exception as e:
             print("\nError writing the DataFrame into .CSV file: "+e)

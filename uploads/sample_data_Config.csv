@@ -1,0 +1,32 @@
+ID,Variable,Value
+0,MySQL_Audit_Table_URL,jdbc:mysql://ip_or_host:port/dbname
+1,MySQL_Audit_Table_Username,<Username>
+2,MySQL_Audit_Table_Password,<Password>
+3,MySQL_Audit_Table_Name,<SQL_Temp_Table_Name>
+4,MySQL_Final_Audit_Table_Name,<SQL_Final_Table_Name>
+5,Destination_Type,<unix or s3>
+6,Output_Filetype,<parquet or txt or csv>
+7,Source_Location,/<PATH_TO_DIR>/sample_test/xml_source/
+8,Destination_Location,/<PATH_TO_DIR>/sample_test/output_final
+9,Intermediate_Location,/<PATH_TO_DIR>/sample_test/output_initial
+10,Output_Data_Delimiter,$
+11,Parent_Tag,Tag1
+12,Child_Tag,Tag1.RootTag1.ParentTag2
+13,Child_Tag,Tag1.RootTag1.ParentTag2.ChildTag11
+14,Child_Tag,Tag1.RootTag1.ParentTag2.ChildTag22
+15,Child_Tag,Tag1.RootTag1.ParentTag2.ChildTag33
+16,Child_Tag,Tag1.RootTag1.ParentTag2.ChildTag44
+17,Child_Tag,Tag1.RootTag1.ParentTag2.ChildTag55
+18,Child_Tag,Tag1.RootTag2
+19,Child_Tag,Tag1.RootTag2.ParentTag1
+20,Child_Tag,Tag1.RootTag2.ParentTag1.ChildTag1
+21,Child_Tag,Tag1.RootTag2.ParentTag1.ChildTag2
+22,Child_Tag,Tag1.RootTag2.ParentTag1.ChildTag3
+23,Child_Tag,Tag1.RootTag2.ParentTag1.ChildTag4
+24,Child_Tag,Tag1.RootTag2.ParentTag1.ChildTag5
+25,Child_Tag,Tag1.RootTag2.ParentTag2
+26,Child_Tag,Tag1.RootTag2.ParentTag2.ChildTag11
+27,Child_Tag,Tag1.RootTag2.ParentTag2.ChildTag22
+28,Child_Tag,Tag1.RootTag2.ParentTag2.ChildTag33
+29,Child_Tag,Tag1.RootTag2.ParentTag2.ChildTag44
+30,Child_Tag,Tag1.RootTag2.ParentTag2.ChildTag55
