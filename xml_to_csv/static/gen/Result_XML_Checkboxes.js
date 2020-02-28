@@ -2,22 +2,25 @@ $(document).ready(function(){
 
   checkbox_name='MyPythonCheckbox'
   
-  /*
-    DOCSTRING:  Utility function to retrieve result-URL of Flask server-page
-  */
   function generateServerURL(suffix){
+    /*
+      DOCSTRING:  Utility function to retrieve result-URL of Flask server-page
+    */
     return 'http://localhost:5000/'+suffix;
   }
 
-  /*
-    DOCSTRING:  Send the selected data over to Flask-python at backend using AJAX request
-  */
-  $("#sendDataToCSV").on('click',function(){
+  $("#sendDataToCSV").on('click',
+  function(){
+    /*
+      DOCSTRING:  Send the selected data over to Flask-python at backend using AJAX request
+                  and finally redirect to the '/results' page
+    */
     checkboxes=$('input:checkbox[name='+checkbox_name+']');
-    res_array=[];
-    for (i=0;i<checkboxes.length;i++){
+    root_tag=checkboxes[0].id;
+    res_array=[['Primary_Key',''+root_tag,''+root_tag,''+root_tag],['Parent_Tag',''+root_tag,''+root_tag,''+root_tag]];
+    for (i=1;i<checkboxes.length;i++){
       if(checkboxes[i].checked){
-        res_array.push(['Child_Tag',''+checkboxes[i].id,i+'']);
+        res_array.push(['Child_Tag',''+checkboxes[i].id,''+root_tag,''+root_tag]);
       }
     }
     json_res_array={'res_array':res_array};
@@ -29,7 +32,7 @@ $(document).ready(function(){
       datatype:'json',
       success:function (){
         window.location.href=generateServerURL('result')
-      }
+      },
     }).done(function(){
       console.log('Your data is now sent. Data='+JSON.stringify(json_res_array));
     });
@@ -40,11 +43,11 @@ $(document).ready(function(){
 
 
 
-  /*
-    DOCSTRING:  Generic handler function for clickable hierarchy of nested checkboxes
-  */
  $(document).delegate('#root', 'click', function()
  {
+   /*
+    DOCSTRING:  Generic handler function for clickable hierarchy of nested checkboxes
+   */
    $('input[type="checkbox"]').change(function(e) {
      var checked = $(this).prop("checked"),
        container = $(this).parent(),

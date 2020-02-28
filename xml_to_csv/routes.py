@@ -18,7 +18,8 @@ def login():
         return redirect('/home')
     form=LoginForm()
     if form.validate_on_submit():
-        if str.lower(form.username.data)=='v' and form.password.data=='v':
+        main=Main()
+        if main.validate_user_creds(form.username.data,form.password.data,os.path.join(XML2CSV.config['STATIC_DIR'],'Login_creds.xlsx')):
             session['validated']=True
             return redirect('/home')
         else:
@@ -101,8 +102,8 @@ def home_result():
                 template_path=os.path.join(XML2CSV.config['UPLOAD_DIR'],'Config_Template.csv')
                 template_df=main.retrieve_template_dataframe(template_path)
                 df=main.retrieve_final_dataframe(template_df,res_array)
-                main.write_dataframe_to_csv(sub(session['filename'],'',session['path']),session['filename'],df,session['filesep'])
-                flash("Your dataframe was written successfully into the config.csv File!")
+                main.write_dataframe_to_excel(sub(session['filename'],'',session['path']),session['filename'],df)
+                flash("Your dataframe was written successfully into the config.xlsx File!")
             except Exception as e:
                 print("Could not process into the config.csv File! Error is: "+str(e))
                 flash("Could not process into the config.csv File! Error is: "+str(e))

@@ -1,12 +1,12 @@
-Variable,Value
-MySQL_Audit_Table_URL,jdbc:mysql://ip_or_host:port/dbname
-MySQL_Audit_Table_Username,<Username>
-MySQL_Audit_Table_Password,<Password>
-MySQL_Audit_Table_Name,<SQL_Temp_Table_Name>
-MySQL_Final_Audit_Table_Name,<SQL_Final_Table_Name>
-Destination_Type,<unix or s3>
-Output_Filetype,<parquet or txt or csv>
-Source_Location,/<PATH_TO_DIR>/sample_test/xml_source/
-Destination_Location,/<PATH_TO_DIR>/sample_test/output_final
-Intermediate_Location,/<PATH_TO_DIR>/sample_test/output_initial
-Output_Data_Delimiter,$
+Variable,Value,Root_Tag,Primary_Key_Value
+MySQL_Audit_Table_URL,jdbc:mysql://ip_or_host:port/dbname,,
+MySQL_Audit_Table_Username,<Username>,,
+MySQL_Audit_Table_Password,<Password>,,
+MySQL_Audit_Table_Name,<SQL_Temp_Table_Name>,,
+MySQL_Final_Audit_Table_Name,<SQL_Final_Table_Name>,,
+Destination_Type,<unix or s3>,,
+Output_Filetype,<parquet or txt or csv>,,
+Source_Location,/<PATH_TO_DIR>/sample_test/xml_source/,,
+Destination_Location,/<PATH_TO_DIR>/sample_test/output_final,,
+Intermediate_Location,/<PATH_TO_DIR>/sample_test/output_initial,,
+Output_Data_Delimiter,$,,

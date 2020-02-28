@@ -1,7 +1,7 @@
-import re
+import re,pandas as pd, openpyxl
 from lxml import etree as ET
-import pandas as pd
 from flask import flash
+from datetime import datetime
 
 temp_depth=0
 
@@ -24,7 +24,7 @@ class Main:
         else:
             overallstring=self.depthFirstXSD(tree.getroot(),0,'')
         overallstring='<ul style="line-height:20%;">'+overallstring+"""</ul>
-                        <button type="submit" id="sendDataToCSV">Send Data to CSV</button>"""
+                        <button type="submit" id="sendDataToCSV">Generate Config File</button>"""
         return overallstring
 
 
@@ -42,7 +42,7 @@ class Main:
         text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>' if 'element' in node.tag else ''
         if depth>temp_depth:
           text='<ul>'+text
-        print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
+        #print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
         temp_depth=depth
         for child in node.getchildren():
           text += self.depthFirstXSD(child, depth+1,tagname)
@@ -99,10 +99,8 @@ class Main:
             INPUT:      Template_DataFrame, Selected_XML_Tags_DataFrame
             OUTPUT:     Resultant_DataFrame '''
         try:
-            df_tag_nesting=pd.DataFrame(arr_tag_nesting,columns=['Variable','Value','TEMP']).drop(columns=['TEMP'])
-            parent_tag=df_tag_nesting['Value'].iloc[0].split('.')[0]
-            parent_tag_df=pd.DataFrame([['Parent_Tag',parent_tag]],columns=['Variable','Value'])
-            res_df=template_df.append(parent_tag_df.append(df_tag_nesting,ignore_index=True),ignore_index=True)
+            df_tag_nesting=pd.DataFrame(arr_tag_nesting,columns=['Variable','Value','Root_Tag','Primary_Key_Value'])
+            res_df=template_df.append(df_tag_nesting,ignore_index=True)
             print("RES_DF=")
             print(res_df,end='\n\n')
             return res_df
@@ -120,3 +118,39 @@ class Main:
             print("\nCSV File created successfully!")
         except Exception as e:
             print("\nError writing the DataFrame into .CSV file: "+e)
+            
+            
+            
+    def write_dataframe_to_excel(self,directory,filename,df_tag_nesting):
+        ''' DOCSTRING:  Attempts to write DataFrame into XLSX file at the input Directory location
+            INPUT:      Directory_Location, Name_of_File, DataFrame
+            OUTPUT:     N/A '''
+        trimmed_filename=re.sub('.xsd','',re.sub('.xml','',filename))
+        try:
+          with pd.ExcelWriter(directory+trimmed_filename+'_Config.xlsx', engine='openpyxl') as writer:
+            df_tag_nesting.to_excel(writer,sheet_name='Sheet1',index=True,index_label='ID')
+            print("\nExcel File created successfully!")
+        except Exception as e:
+            print("\nError writing the DataFrame into Excel file: "+e)
+            
+    def validate_user_creds(self, uname, password, static_file_path):
+        ''' DOCSTRING:  Attempts to read the excel containing valid user credentials.
+                        Writes the current timestamp as [lastlogin] field of the excel on successful validation.
+            INPUT:      Input_Username, Input_Password, Absolute_File_path_location
+            OUTPUT:     Boolean '''
+      try:
+        static_login_excel=pd.read_excel(static_file_path)
+        if static_login_excel.loc[static_login_excel['username']==uname]['password'].values==password:
+          fname = static_login_excel.loc[static_login_excel['username']==uname]['fname'].values[0]
+          lastlogin = static_login_excel.loc[static_login_excel['username']==uname]['lastlogin'].values[0]
+          static_login_excel.loc[static_login_excel['username']==uname,'lastlogin']=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%MS')
+          with pd.ExcelWriter(static_file_path,engine='openpyxl') as writer:
+            static_login_excel.to_excel(writer,sheet_name='Sheet1',index=False)
+          display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%Y-%m-%d %H:%M:%S')
+          flash("Welcome {}! Last logged in on: {}".format(fname, display_last_login_datetime))
+          return True
+        else:
+          flash("Could not find proper combination in hardcoded excel.")
+          return False
+      except Exception as e:
+        flash("Could not read the excel: ",e)

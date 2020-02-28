@@ -1,0 +1,28 @@
+1. 	Add RootTag column populated with parent_tag in DataFrame for Config file in Excel format 
+	Manual typing of Primary-Key Value column will be required because:
+a.  Flask application code already has used up all available attributes of checkboxes to display the nested hierarchy. 
+	So displaying the inner XML data wouldn't be possible for now.
+b.  'Primary-key' as a value in XML data might not always be present in the selected number of XML tags. Similarly, Primary-Key won't be mentioned in the XSD File.
+
+
+
+2. 	Horizontal tabs for 'Home' and then onclick of 'Proceed' make visible nested hierarchy of XML/XSD Tags on same page
+#################	XML Tags list can be very huge. Displaying on new page (Current approach) is recommended.	#################
+
+3. 	Basic UI Changes: 	Deloitte logo at top-left
+						Welcome [username] message & [last_login_time] at top-right
+#################	DONE	#################
+
+4.1.Provide option to user to enter Destination filename.
+4.2.	Final-filename only save as xlsx regardless of what user types in extension- .xyz
+
+
+5. 	On SUCCESS of config.xlsx file-creation user should be only able to view the created excel
+
+
+6. 	Error handling across webpages: Moving from one page to the other
+
+
+7.1.Maintaining an excel of usernames+passwords for sign-in [username, fname, lname, password]
+7.2.	Maintaining of log file [file-creation-status: SUCCESS/FAILURE, userid, datetime, filename, last_login_time]
+
