@@ -2,7 +2,6 @@ import re,pandas as pd, openpyxl
 from lxml import etree as ET
 from flask import flash
 from datetime import datetime
-
 temp_depth=0
 
 class Main:
@@ -132,25 +131,26 @@ class Main:
             print("\nExcel File created successfully!")
         except Exception as e:
             print("\nError writing the DataFrame into Excel file: "+e)
+    
             
     def validate_user_creds(self, uname, password, static_file_path):
         ''' DOCSTRING:  Attempts to read the excel containing valid user credentials.
                         Writes the current timestamp as [lastlogin] field of the excel on successful validation.
             INPUT:      Input_Username, Input_Password, Absolute_File_path_location
             OUTPUT:     Boolean '''
-      try:
-        static_login_excel=pd.read_excel(static_file_path)
-        if static_login_excel.loc[static_login_excel['username']==uname]['password'].values==password:
-          fname = static_login_excel.loc[static_login_excel['username']==uname]['fname'].values[0]
-          lastlogin = static_login_excel.loc[static_login_excel['username']==uname]['lastlogin'].values[0]
-          static_login_excel.loc[static_login_excel['username']==uname,'lastlogin']=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%MS')
-          with pd.ExcelWriter(static_file_path,engine='openpyxl') as writer:
-            static_login_excel.to_excel(writer,sheet_name='Sheet1',index=False)
-          display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%Y-%m-%d %H:%M:%S')
-          flash("Welcome {}! Last logged in on: {}".format(fname, display_last_login_datetime))
-          return True
-        else:
-          flash("Could not find proper combination in hardcoded excel.")
-          return False
-      except Exception as e:
-        flash("Could not read the excel: ",e)
+        try:
+          static_login_excel=pd.read_excel(static_file_path)
+          if static_login_excel.loc[static_login_excel['username']==uname]['password'].values==password:
+            fname = static_login_excel.loc[static_login_excel['username']==uname]['fname'].values[0]
+            lastlogin = static_login_excel.loc[static_login_excel['username']==uname]['lastlogin'].values[0]
+            static_login_excel.loc[static_login_excel['username']==uname,'lastlogin']=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%MS')
+            with pd.ExcelWriter(static_file_path,engine='openpyxl') as writer:
+              static_login_excel.to_excel(writer,sheet_name='Sheet1',index=False)
+            display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%Y-%m-%d %H:%M:%S')
+            flash("Welcome {}! Last logged in on: {}".format(fname, display_last_login_datetime))
+            return True
+          else:
+            flash("Could not find proper combination in hardcoded excel.")
+            return False
+        except Exception as e:
+          flash("Could not read the excel: ",e)

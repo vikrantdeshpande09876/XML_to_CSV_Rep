@@ -7,7 +7,7 @@ b.  'Primary-key' as a value in XML data might not always be present in the sele
 
 
 2. 	Horizontal tabs for 'Home' and then onclick of 'Proceed' make visible nested hierarchy of XML/XSD Tags on same page
-#################	XML Tags list can be very huge. Displaying on new page (Current approach) is recommended.	#################
+#################	XML Tags list can be very huge. Displaying on same page with scrollable panel.	#################
 
 3. 	Basic UI Changes: 	Deloitte logo at top-left
 						Welcome [username] message & [last_login_time] at top-right
