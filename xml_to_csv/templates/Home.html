@@ -1,30 +1,36 @@
-{%extends 'base.html'%} {%block content%}
-<div id="root" class="container">
-    <h1>Home | XML2CSV</h1>
-    {%with messages = get_flashed_messages()%} {%if messages%}
-    <ul style="color:red">
-        {%for msg in messages%}
-        {%if 'Welcome' in msg%}
-        <li style="color:blue">{{msg}}</li>
-        {%else%}
-        <li>{{msg}}</li>
-        {%endif%}
-        {%endfor%}
-    </ul>
-    {%endif%} {%endwith%}
-    <form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
-        <h5><b>File Type: </b></h5>
-        <label><b>XML</b><input type="radio" name="ftype" value="XML"></label>
-        <label><b>XSD</b><input type="radio" name="ftype" value="XSD"></label>
-        <br>
-        <br>
-        <label><b>Destination Text-Seperator:   </b><input type="text" name="filesep" id="filesep" maxlength="1" minlength="1" size="1"></label>
-        <br>
-        <br>
-        <input type="file" name="filename" id="fileid">
-        <br>
-        <br>
-        <button type="submit">Proceed</button>
-    </form>
-</div>
+{%extends 'base.html'%} {%block content%} {%with messages = get_flashed_messages()%} {%if messages%}
+<ul style="color:red">
+    {%for msg in messages%} {%if 'Welcome' in msg%}
+    <div style="float: right;margin-right:5%;">
+        <div style="color:green;">{{msg}}</div>
+    </div>
+    {%else%}
+    <li>{{msg}}</li>
+    {%endif%} {%endfor%}
+</ul>
+{%endif%} {%endwith%}
+<form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
+    <div id="root" class="container">
+        <div style="text-align: left; margin-left: 5%;">
+            <label for="ftype"><b>1. File Format:   </b></label>
+            <select name="ftype" id="ftype" style="width: 120px;">
+                <option value="-" selected><b>-</b></option>
+                <option value="XML"><b>XML</b></option>
+                <option value="XSD"><b>XSD</b></option>
+            </select>
+            <br>
+            <br>
+            <b>2. Your Input File:   </b><input type="file" name="filename" id="fileid">
+            <br>
+            <br>
+            <label><b>3. Destination Text-Seperator</b> (optional):   <input type="text" name="filesep" id="filesep" maxlength="1" minlength="1" size="1"></label>
+            <br>
+            <br>
+
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button class="mybtn" type="submit">Proceed</button>
+    </div>
+</form>
 {%endblock%}

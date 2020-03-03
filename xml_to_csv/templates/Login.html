@@ -1,6 +1,5 @@
 {%extends 'base.html'%} {%block content%}
 <div id="root" class="container">
-    <h1>Sign In</h1>
     {%with messages = get_flashed_messages()%} {%if messages%}
     <ul style="color:red">
         {%for msg in messages%}
@@ -21,7 +20,9 @@
             <span style="color:red">[{{error}}]</span> {%endfor%}
         </p>
         <p>{{form.remember_me()}} {{form.remember_me.label}}</p>
-        <p>{{form.submit()}}</p>
+        <div style="text-align: center;">
+            <button class="mybtn">Login</button>
+        </div>
     </form>
 </div>
 {%endblock%}

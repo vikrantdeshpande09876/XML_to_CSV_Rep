@@ -2,6 +2,7 @@ import re,pandas as pd, openpyxl
 from lxml import etree as ET
 from flask import flash
 from datetime import datetime
+
 temp_depth=0
 
 class Main:
@@ -22,8 +23,7 @@ class Main:
             overallstring=self.depthFirstXML(tree.getroot(),0,'')
         else:
             overallstring=self.depthFirstXSD(tree.getroot(),0,'')
-        overallstring='<ul style="line-height:20%;">'+overallstring+"""</ul>
-                        <button type="submit" id="sendDataToCSV">Generate Config File</button>"""
+        overallstring='<ul style="line-height:20%;">'+overallstring+'</ul>'
         return overallstring
 
 
@@ -80,6 +80,7 @@ class Main:
             text+='</ul>'
             temp_depth-=1  
         return text+'</li>'
+
 
     def retrieve_template_dataframe(self,path):
         ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the absolute path of file.
@@ -147,10 +148,10 @@ class Main:
             with pd.ExcelWriter(static_file_path,engine='openpyxl') as writer:
               static_login_excel.to_excel(writer,sheet_name='Sheet1',index=False)
             display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%Y-%m-%d %H:%M:%S')
-            flash("Welcome {}! Last logged in on: {}".format(fname, display_last_login_datetime))
-            return True
+            flash("Welcome {}! Last successful login: {}".format(fname, display_last_login_datetime))
+            return fname
           else:
-            flash("Could not find proper combination in hardcoded excel.")
-            return False
+            flash("Could not find proper credentials in hardcoded excel.")
+            return None
         except Exception as e:
           flash("Could not read the excel: ",e)

@@ -1,7 +1,7 @@
 object {
     align-content: center;
-    width:50%;
-    height:50%;
+    width: 50%;
+    height: 50%;
 }
 
 body {
@@ -10,55 +10,59 @@ body {
     transition: all 0.2s 1000ms 20 ease-in-out;
 }
 
+select {
+    text-align-last: center;
+    text-align: center;
+    -ms-text-align-last: center;
+    -moz-text-align-last: center;
+}
 
-img
-{
+img {
     opacity: 1;
     max-width: 8%;
     float: left;
-    margin-top:10px;
+    margin-top: 10px;
     transition: 200ms ease-in-out;
 }
+
 img:hover {
     opacity: 0.8;
     transition: 200ms;
     cursor: pointer;
-    transition-delay: 200ms;    
+    transition-delay: 200ms;
 }
 
-#header1
-{
+#header1 {
     font-family: 'Cabin';
     color: #f1f1f1;
-    background:rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     font-size: 20px;
     padding: 0 0 5px 20px;
-    box-shadow: 0 5px 5px rgba(0,0,0,0.9);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.9);
     border: black;
     position: fixed;
-    top:0;
+    top: 0;
     width: 100%;
-    left:0;
-    margin:0 auto;
+    left: 0;
+    margin: 0 auto;
     z-index: 999;
 }
-h2
-{
+
+h2 {
     float: left;
     font-weight: bolder;
     margin-top: 1.2%;
     position: relative;
-    color:white;
+    color: white;
 }
 
-h2:hover
-{
-    cursor:pointer;
+h2:hover {
+    cursor: pointer;
 }
 
 #gototop {
     display: inline-block;
-    background-color: darkblue;
+    background-color: #58b8177a;
     width: 50px;
     height: 50px;
     text-align: center;
@@ -71,6 +75,7 @@ h2:hover
     visibility: hidden;
     z-index: 1000;
 }
+
 #gototop::after {
     content: "\f077";
     font-family: FontAwesome;
@@ -79,24 +84,24 @@ h2:hover
     font-size: 2em;
     line-height: 50px;
     color: #fff;
-  }
+}
 
 #gototop:hover {
     background-color: #333;
 }
+
 #gototop:active {
     background-color: #555;
 }
+
 #gototop.show {
     opacity: 1;
     visibility: visible;
 }
 
-
 .fa-file-code-o {
     font-size: 80px !important;
 }
-
 
 .container {
     max-width: 1000px;
@@ -106,31 +111,51 @@ h2:hover
 #root {
     float: none;
     padding: 15px;
-	border-radius: 6px;
-    margin-top:40px;
-    margin-bottom:40px;
+    border-radius: 6px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     box-shadow: 20px 20px 40px 4px rgba(0, 0, 0, 0.6);
     max-height: 400px;
-    overflow: scroll;
 }
+
+#subroot {
+    float: none;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    box-shadow: 20px 20px 40px 4px rgba(0, 0, 0, 0.301);
+}
+
 p {
     padding: 4px;
 }
 
-h4,h6 {
+.mybtn {
+    background-color: #333333;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 10px;
+}
+
+h4,
+h6 {
     padding: 4px;
     font-family: Cabin;
     font-weight: bold;
 }
+
 h6 {
     text-align: right;
-    margin-right:10px;
-    transition:200ms ease-in-out;
+    margin-right: 10px;
+    transition: 200ms ease-in-out;
 }
 
 h6:hover {
     font-weight: bolder;
-    font-size:20px;
+    font-size: 20px;
     transition-duration: 400ms;
 }
 
@@ -138,79 +163,105 @@ h6:hover {
     padding: 10px;
 }
 
-
-
-
-
-
 #loading {
     margin: auto;
     margin-top: 200px;
     width: 66px;
     height: 12px;
-    font-weight:bold;
-    font-size:20px;
-    color:black;
-    animation: Loading_animation 1000ms 20 ease-in-out; 
-    -webkit-animation: Loading_animation 1000ms 20 ease-in-out; 
-    -o-animation: Loading_animation 1000ms 20 ease-in-out; 
-    -moz-animation: Loading_animation 1000ms 20 ease-in-out; 
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    animation: Loading_animation 1000ms 20 ease-in-out;
+    -webkit-animation: Loading_animation 1000ms 20 ease-in-out;
+    -o-animation: Loading_animation 1000ms 20 ease-in-out;
+    -moz-animation: Loading_animation 1000ms 20 ease-in-out;
 }
 
 @keyframes Loading_animation {
-    0% {        opacity: 0;    }
-    50% {        opacity: 1;    }
-    100% {        opacity: 0;    }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @-moz-keyframes Loading_animation {
-    0% {        opacity: 0;    }
-    50% {        opacity: 1;    }
-    100% {        opacity: 0;    }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @-o-keyframes Loading_animation {
-    0% {        opacity: 0;    }
-    50% {        opacity: 1;    }
-    100% {        opacity: 0;    }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes Loading_animation {
-    0% {        opacity: 0;    }
-    50% {        opacity: 1;    }
-    100% {        opacity: 0;    }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
-
-
-
-
-
-
-
-.panel
-{
-    background:rgba(132, 185, 216, 0.7);
+.panel {
+    background: darkgrey;
+    color: white;
     bottom: 0;
     margin-top: 100px;
     width: 100%;
 }
 
-#myself
-{
-    animation: Loading_animation 1500ms 20 ease-in-out; 
-    -webkit-animation: Loading_animation 1500ms 20 ease-in-out; 
-    -o-animation: Loading_animation 1500ms 20 ease-in-out; 
-    -moz-animation: Loading_animation 1500ms 20 ease-in-out; 
+#myself {
+    color: floralwhite;
+    font-weight: bold;
+    animation: Loading_animation 1500ms 20 ease-in-out;
+    -webkit-animation: Loading_animation 1500ms 20 ease-in-out;
+    -o-animation: Loading_animation 1500ms 20 ease-in-out;
+    -moz-animation: Loading_animation 1500ms 20 ease-in-out;
 }
 
-#myself:hover{
+#myself:hover {
     animation: none;
-    text-decoration:none;
-    background:rgba(0,0,0,0.3);
-    border-radius:2px;
-    transition-delay:50ms;
-    transition-duration:300ms;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.123);
+    border-radius: 2px;
+    transition-delay: 50ms;
+    transition-duration: 300ms;
     padding: 6px;
-    display:inline;
+    display: inline;
+}
+
+#resubmit {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: rgb(42, 123, 163);
+    cursor: pointer;
+}
+
+#resubmit:hover {
+    color: rgb(8, 115, 168);
+    text-decoration: underline;
 }
