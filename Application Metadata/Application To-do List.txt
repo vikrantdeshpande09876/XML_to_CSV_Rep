@@ -1,22 +1,24 @@
 1. 	Add RootTag column populated with parent_tag in DataFrame for Config file in Excel format 
 	Manual typing of Primary-Key Value column will be required because:
-a.  Flask application code already has used up all available attributes of checkboxes to display the nested hierarchy. 
+a)  Flask application code already has used up all available attributes of checkboxes to display the nested hierarchy. 
 	So displaying the inner XML data wouldn't be possible for now.
-b.  'Primary-key' as a value in XML data might not always be present in the selected number of XML tags. Similarly, Primary-Key won't be mentioned in the XSD File.
+b)  'Primary-key' as a value in XML data might not always be present in the selected number of XML tags. 
+	Similarly, Primary-Key won't be mentioned in the XSD File.
 #################	DONE- Currently taking static input from user	#################
 
 
 2. 	Horizontal tabs for 'Home' and then onclick of 'Proceed' make visible nested hierarchy of XML/XSD Tags on same page
-#################	XML Tags list can be very huge. Displaying on same page with scrollable panel.	#################
+#################	DONE- Currently displaying on new page with scrollable panel.	#################
 
-3. 	Basic UI Changes: 	Deloitte logo at top-left
-						Welcome [username] message & [last_login_time] at top-right
+3.1.Basic UI Changes: 	Deloitte logo at top-left
+3.2.	Welcome [username] message & [last_login_time] at top-right
 #################	DONE	#################
 
-
 4.1.Provide option to user to enter Destination filename.
-4.2.	Final-filename only save as xlsx regardless of what user types in extension- .xyz
-
+#################	DONE	#################
+4.2.	Final-filename only save as xlsx regardless of what user types in extension- .xyz.
+		It should also have timestamp appended to it.
+#################	DONE	#################
 
 5. 	On SUCCESS of config.xlsx file-creation user should be only able to view the created excel
 
@@ -25,6 +27,7 @@ b.  'Primary-key' as a value in XML data might not always be present in the sele
 #################	DONE	#################
 
 
-7.1.Maintaining an excel of usernames+passwords for sign-in [username, fname, lname, password]
-7.2.	Maintaining of log file [file-creation-status: SUCCESS/FAILURE, userid, datetime, filename, last_login_time]
+7.	Maintaining an excel of usernames+passwords for sign-in [userid, username, fname, lname, password]
+#################	DONE	#################
 
+8.	Maintaining of log file [userid, file_creation_status: SUCCESS/FAILURE, datetime, filename, last_login_time]	

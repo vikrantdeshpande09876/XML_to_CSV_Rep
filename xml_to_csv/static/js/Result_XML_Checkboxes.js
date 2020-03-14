@@ -1,11 +1,14 @@
 $(document).ready(function() {
-    checkbox_name = 'MyPythonCheckbox'
+    checkbox_name = 'MyPythonCheckbox';
 
     function generateServerURL(suffix) {
         /*
           DOCSTRING:  Utility function to retrieve result-URL of Flask server-page
         */
-        return 'http://localhost:5000/' + suffix;
+        if (window.location.origin.search('localhost') != -1)
+            return 'http://localhost:5000/' + suffix;
+        else
+            return 'http://127.0.0.1:5000/' + suffix;
     }
 
     $("#generateConfigFile").on('click',
@@ -17,9 +20,12 @@ $(document).ready(function() {
             primary_parent_tag = $('input:text[name="primary_parent_tag"]')[0].value;
             primary_child_tag = $('input:text[name="primary_child_tag"]')[0].value;
             primary_key_tag = $('input:text[name="primary_key_tag"]')[0].value;
-            ptags_chk = primary_parent_tag && primary_child_tag && primary_key_tag
-            if (ptags_chk == "" || ptags_chk == null || ptags_chk == undefined) {
-                if (primary_parent_tag == "" || primary_parent_tag == null) {
+            ptags_chk = primary_parent_tag && primary_child_tag && primary_key_tag;
+            nchecked_tags = $('input:checkbox[name=' + checkbox_name + ']:checked').length
+            if (ptags_chk == "" || ptags_chk == null || ptags_chk == undefined || nchecked_tags == 0) {
+                if (nchecked_tags == 0) {
+                    alert("Please select atleast one tag from your input file!")
+                } else if (primary_parent_tag == "" || primary_parent_tag == null) {
                     alert("Please fill in the static Primary Parent Tag correctly!")
                 } else if (primary_child_tag == "" || primary_child_tag == null) {
                     alert("Please fill in the static Primary Child Tag correctly!")
@@ -114,3 +120,11 @@ $(document).ready(function() {
     });
 
 });
+
+
+/*
+    add class for the checkboxes with classname="PrimaryKey" 
+        if the xml document contains PrimaryKey in its data-value
+    when user clicks submit, parse the checked checkboxes, to identify the checkbox with classname="PrimaryKey", ex: chkbx
+    find its immediate parent and child with chkbx.parent() and chkbx.find("input[checkbox]").prop("checked")==checked
+*/

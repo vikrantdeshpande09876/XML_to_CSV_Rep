@@ -121,13 +121,17 @@ class Main:
             
             
             
-    def write_dataframe_to_excel(self,directory,filename,df_tag_nesting):
+    def write_dataframe_to_excel(self,directory,filename,dest_filename,df_tag_nesting):
         ''' DOCSTRING:  Attempts to write DataFrame into XLSX file at the input Directory location
-            INPUT:      Directory_Location, Name_of_File, DataFrame
+            INPUT:      Directory_Location, Name_of_File, Destination_Config_filename, DataFrame
             OUTPUT:     N/A '''
-        trimmed_filename=re.sub('.xsd','',re.sub('.xml','',filename))
+        if dest_filename!='' and dest_filename is not None:
+          trimmed_filename=dest_filename.split('.')[0]
+        else:
+          trimmed_filename=filename.split('.')[0]+'_Config'
+        trimmed_filename=trimmed_filename+'_'+datetime.now().strftime('%Y%m%d%H%M')
         try:
-          with pd.ExcelWriter(directory+trimmed_filename+'_Config.xlsx', engine='openpyxl') as writer:
+          with pd.ExcelWriter(directory+trimmed_filename+'.xlsx', engine='openpyxl') as writer:
             df_tag_nesting.to_excel(writer,sheet_name='Sheet1',index=True,index_label='ID')
             print("\nExcel File created successfully!")
         except Exception as e:
@@ -147,11 +151,10 @@ class Main:
             static_login_excel.loc[static_login_excel['username']==uname,'lastlogin']=datetime.now().strftime('%Y-%m-%d %H:%M:%S.%MS')
             with pd.ExcelWriter(static_file_path,engine='openpyxl') as writer:
               static_login_excel.to_excel(writer,sheet_name='Sheet1',index=False)
-            display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%Y-%m-%d %H:%M:%S')
+            display_last_login_datetime=datetime.strptime(lastlogin,'%Y-%m-%d %H:%M:%S.%fS').strftime('%d-%m-%Y %H:%M')
             flash("Welcome {}! Last successful login: {}".format(fname, display_last_login_datetime))
             return fname
           else:
-            flash("Could not find proper credentials in hardcoded excel.")
             return None
         except Exception as e:
           flash("Could not read the excel: ",e)

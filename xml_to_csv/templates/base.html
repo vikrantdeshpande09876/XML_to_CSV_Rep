@@ -19,14 +19,27 @@
     <div id="header1">
         <a href="http://www.deloittenet.com/" target="__blank"><img src="{{url_for('static', filename='Deloitte_White.png')}}" alt="Deloitte Logo" srcset="" /></a>
         <br>
-        <h2>XML/XSD Parser</h2>
+        <h3>XML/XSD Parser</h3>
     </div>
+    <div id="loading">Loading</div>
 
     <body>
-        <div id="loading">Loading</div>
+        {%with messages = get_flashed_messages()%} {%if messages%}
+        <div id="flashed_msgs">
+            {%for msg in messages%} {%if 'Welcome' in msg%}
+            <div style=" margin-right:1%; margin-top: 1%; float:right;">
+                <div style="color:green;">{{msg}}</div>
+            </div>
+            {%else%}
+            <div style="font-weight: lighter;margin-right:1%; margin-top: 1%; float:right;">
+                <div style="color:red;">{{msg}}</div>
+            </div>
+            {%endif%} {%endfor%}
+        </div>
+        {%endif%} {%endwith%}
         <div style="text-align: center;">
             {%if header%}
-            <h1 id="myheader">{{header}}</h1>
+            <h2 id="myheader">{{header}}</h2>
             {%endif%}
         </div>
         {%block content%} {%endblock%}

@@ -5,7 +5,7 @@ object {
 }
 
 body {
-    margin-top: 350px;
+    /*margin-top: 350px;*/
     font-family: 'Cabin', sans-serif;
     transition: all 0.2s 1000ms 20 ease-in-out;
 }
@@ -40,23 +40,47 @@ img:hover {
     padding: 0 0 5px 20px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.9);
     border: black;
-    position: fixed;
+    position: relative;
     top: 0;
     width: 100%;
     left: 0;
     margin: 0 auto;
-    z-index: 999;
+    /*z-index: 999;*/
+    z-index: 10;
+    line-height: 4em;
 }
 
-h2 {
+#flashed_msgs {
+    color: red;
+    margin-top: 1%;
+    float: right;
+    width: 100%;
+    font-weight: bold;
+}
+
+#myheader {
+    padding-top: 5%;
+}
+
+h3 {
     float: left;
     font-weight: bolder;
-    margin-top: 1.2%;
+    /*margin-top: 1.2%;*/
+    margin-top: -3%;
     position: relative;
+    z-index: 20;
     color: white;
 }
 
-h2:hover {
+input[type=text] {
+    text-align: center;
+}
+
+#username {
+    text-align: left;
+}
+
+h3:hover {
     cursor: pointer;
 }
 
@@ -87,15 +111,21 @@ h2:hover {
 }
 
 #gototop:hover {
+    transition: 400ms;
+    cursor: pointer;
     background-color: #333;
 }
 
 #gototop:active {
+    transition: 400ms;
+    cursor: pointer;
     background-color: #555;
 }
 
 #gototop.show {
     opacity: 1;
+    transition: 400ms;
+    cursor: pointer;
     visibility: visible;
 }
 

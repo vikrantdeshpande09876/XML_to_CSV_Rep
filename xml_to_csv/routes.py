@@ -37,8 +37,10 @@ def home():
             if str.lower('.'+request.form['ftype']) in request.files['filename'].filename:
                 selected_file=request.files['filename']
                 filename=selected_file.filename
-                filesep=request.form['filesep']
                 selected_ftype=request.form['ftype']
+                filesep=request.form['filesep']
+                dest_filename=request.form['dest_filename']
+                print("DEST_FILENAME={}.".format(dest_filename))
                 path=os.path.join(XML2CSV.config['UPLOAD_DIR'],filename)
                 try:
                     selected_file.save(path)
@@ -46,12 +48,13 @@ def home():
                     session['selected_ftype']=selected_ftype
                     session['filename']=filename
                     session['filesep']=filesep
-                    flash(filename+" saved at: "+str(path))
+                    session['dest_filename']=dest_filename
+                    #flash(filename+" saved at: "+str(path))
                 except Exception as e:
                     flash("File couldn't be saved! \n"+e)
                 return redirect(url_for('displayTags'))
             else:
-                flash('Check the file format!')
+                flash('Ensure that a file is selected with the right format!')
                 return redirect(url_for('login'))
         return render_template('Home.html',title='Home | XML Parser',header='Home | XML Parser')
     else:
@@ -63,7 +66,7 @@ def home():
 @XML2CSV.route('/home/displayTags',methods=['GET','POST'])
 def displayTags():
     if 'validated' in session:
-        if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session:
+        if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session and 'dest_filename' in session:
             main=Main()
             overallstring=main.exec_main_functions(session['path'], session['selected_ftype'])
             overallstring='''
@@ -103,7 +106,7 @@ def displayTags():
 @XML2CSV.route('/home/result',methods=['GET','POST'])
 def home_result():
     if 'validated' in session:
-        if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session:
+        if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session and 'dest_filename' in session:
             for key in request.form.keys():
                     data=key
             #print("The raw data is= "+str(data))    #retrieves a JSON object with 0th element as our passed object from JS
@@ -113,7 +116,7 @@ def home_result():
                 template_path=os.path.join(XML2CSV.config['UPLOAD_DIR'],'Config_Template.csv')
                 template_df=main.retrieve_template_dataframe(template_path)
                 df=main.retrieve_final_dataframe(template_df,res_array)
-                main.write_dataframe_to_excel(sub(session['filename'],'',session['path']),session['filename'],df)
+                main.write_dataframe_to_excel(sub(session['filename'],'',session['path']),session['filename'],session['dest_filename'],df)
                 session['session_msg']='Your config file was created successfully '+session['fname']+'!'
                 flash("Your dataframe was written successfully into the config.xlsx File!")
             except Exception as e:
@@ -139,7 +142,7 @@ def result():
             session_msg=session['session_msg']
             fname=session['fname']
         else:
-            flash('Parse a file to view the results!')
+            flash('Something went wrong. Parse a file to view the results!')
             return redirect(url_for('home'))
         if request.method=='POST':
             session.clear()

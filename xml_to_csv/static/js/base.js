@@ -2,8 +2,10 @@ $(document).ready(function() {
     $("#loading").css('visibility', 'visible');
     $("#root").css('visibility', 'hidden');
     $("#myheader").css('visibility', 'hidden');
+    $("#flashed_msgs").css('visibility', 'hidden');
     setTimeout(function() {
-        $("body").css({ "margin-top": "200px" });
+        //$("body").css({ "margin-top": "200px" });
+        $("#flashed_msgs").css('visibility', 'visible');
         $("#loading").remove();
         $("#root").css('visibility', 'visible');
         $("#myheader").css('visibility', 'visible');

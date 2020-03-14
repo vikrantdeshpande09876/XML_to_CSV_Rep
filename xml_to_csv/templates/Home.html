@@ -1,14 +1,4 @@
-{%extends 'base.html'%} {%block content%} {%with messages = get_flashed_messages()%} {%if messages%}
-<ul style="color:red">
-    {%for msg in messages%} {%if 'Welcome' in msg%}
-    <div style="float: right;margin-right:5%;">
-        <div style="color:green;">{{msg}}</div>
-    </div>
-    {%else%}
-    <li>{{msg}}</li>
-    {%endif%} {%endfor%}
-</ul>
-{%endif%} {%endwith%}
+{%extends 'base.html'%} {%block content%}
 <form name="uploadForm" action="" method="POST" enctype="multipart/form-data" novalidate>
     <div id="root" class="container">
         <div style="text-align: left; margin-left: 5%;">
@@ -23,10 +13,12 @@
             <b>2. Your Input File:   </b><input type="file" name="filename" id="fileid">
             <br>
             <br>
-            <label><b>3. Destination Text-Seperator</b> (optional):   <input type="text" name="filesep" id="filesep" maxlength="1" minlength="1" size="1"></label>
+            <label><b>3. Destination Text-Seperator</b> (optional):   <input type="text" name="filesep" id="filesep" placeholder="," maxlength="1" minlength="1" size="1"></label>
             <br>
             <br>
-
+            <label><b>4. Destination File-Name</b> (optional):   <input type="text" name="dest_filename" id="dest_filename" placeholder="Config.xlsx"></label>
+            <br>
+            <br>
         </div>
     </div>
     <div style="text-align: center;">
