@@ -10,7 +10,11 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 2. The hierarchy of parsed XML/XSD selectable tags is displayed and one needs to choose a section of these tag(s), and define the Primary key tag, Primary child tag, and Primary parent tag.
 3. Finally, the config excel file for the parsed XML/XSD Tags is created at server side, so that the Spark-Scala code can access and read the XML files from Unix directory.
 
-![process_flow](https://github.com/vikrantdeshpande09876/XML_to_CSV_Rep/tree/master/Application%20Metadata/Process_flow_flask_app.jpg)
+![process_flow](https://github.com/vikrantdeshpande09876/XML_to_CSV_Rep/tree/master/Application%20Metadata/Process_flow_flask_app.jpg?raw=True)
+
+
+
+![process_flow](/Application%20Metadata/Process_flow_flask_app.jpg?raw=True)
 
 
 
