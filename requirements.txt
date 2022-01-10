@@ -26,4 +26,4 @@ webassets==2.0
 Werkzeug==0.16.0
 WTForms==2.2.1
 xlrd==1.2.0
-zope.interface==4.7.1
+zope.interface==5.0.0

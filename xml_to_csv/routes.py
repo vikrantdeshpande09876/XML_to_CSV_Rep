@@ -44,7 +44,6 @@ def logout():
 @bp.route('/home',methods=['GET','POST'])
 def home():
     if 'validated' in session:
-        print('3. You are here')
         if request.method=='POST' and request.files:
             if str.lower('.'+request.form['ftype']) in request.files['filename'].filename:
                 selected_file = request.files['filename']

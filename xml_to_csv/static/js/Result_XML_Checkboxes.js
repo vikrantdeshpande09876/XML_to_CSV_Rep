@@ -8,6 +8,7 @@ $(document).ready(function() {
         return window.location.origin + '/' + suffix;
     }
 
+    
     $("#generateConfigFile").on('click',
         function() {
             /*
