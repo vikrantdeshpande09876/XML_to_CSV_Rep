@@ -1,14 +1,27 @@
 # XML/XSD Parser
-This Flask app with an easy-to-use frontend is intended for generating a configuration excel, given an input XML/XSD file (Extensible Markup format to Relational schema)
+This Flask app with an easy-to-use frontend is intended for generating a configuration excel, given an input XML/XSD file (Extensible Markup format to Relational schema).
 
 **_This module was used as a proof-of-concept for an internal use-case._**
 
 
 ## Overview
 
-1. After logging in, one must upload an XML/XSD File, select a file-format, a destination data delimiter (default: comma), and a filename for the final config file (default: original filename with timestamp).
-2. The hierarchy of parsed XML/XSD selectable tags is displayed and one needs to choose a section of these tag(s), and define the Primary key tag, Primary child tag, and Primary parent tag.
-3. Finally, the config excel file for the parsed XML/XSD Tags is created at server side, so that the Spark-Scala code can access and read the XML files from Unix directory.
+<ol>
+<li>After logging in, one must upload an XML/XSD File, select a file-format, a destination data delimiter (default: comma), and a filename for the final config file (default: original filename with timestamp).</li>
+<li>The hierarchy of parsed XML/XSD selectable tags is displayed and one needs to choose a section of these tag(s), and define the Primary key tag, Primary child tag, and Primary parent tag.</li>
+<li>
+The config file will mainly contain a hierarchy of nested-tags of your XML/XSD file (with associated metadata for the downstream Pyspark application) as:
+<ul>
+<li>Parent1</li>
+<li>Parent1.child1</li>
+<li>Parent1.child2</li>
+<li>Parent1.child2.subchild1</li>
+<li>Parent1.child2.subchild2</li>
+</ul>
+</li>
+<li>Finally, the config excel file for the parsed XML/XSD Tags is created at server side, so that the Spark-Scala code can access and read the XML files from Unix directory.</li>
+<li>This Flask Application is live on <a href="https://xmlxsdparser.herokuapp.com/" target="blank">Heroku.</a></li>
+</ol>
 
 ![process_flow](/Application%20Metadata/Process_flow_flask_app.jpg?raw=True)
 
@@ -40,7 +53,6 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 7.	Set the starting point for running this Flask application as run.py:
 ```
 > set flask_app=xml_to_csv
-
 > set flask_env=development
 ```
 
@@ -49,6 +61,6 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 > flask run
 ```
 
-9.	In a web-browser, navigate to the URL mentioned in the cmd output from above command. For example http://127.0.0.1:5000/ or http://localhost:5000/
+9.	In a web-browser, navigate to the URL mentioned in the cmd output from above command. For example http://127.0.0.1:5000/ or http://localhost:5000/. App is currentl live on [Heroku](https://xmlxsdparser.herokuapp.com/).
 
-10.	Currently the application accepts (username, password) from the excel file Login_creds.xlsx for logging in. This file is located in the /static/ folder of the application.
+10.	Currently the application accepts (username, password) from the excel file Login_creds.xlsx for logging in. This file is located in the /static/ folder of the application. These static login-credentials were used for quick development of an MVP (Minimal Viable Product).
