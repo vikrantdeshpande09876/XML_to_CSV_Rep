@@ -5,12 +5,10 @@ $(document).ready(function() {
         /*
           DOCSTRING:  Utility function to retrieve result-URL of Flask server-page
         */
-        if (window.location.origin.search('localhost') != -1)
-            return 'http://localhost:5000/' + suffix;
-        else
-            return 'http://127.0.0.1:5000/' + suffix;
+        return window.location.origin + '/' + suffix;
     }
 
+    
     $("#generateConfigFile").on('click',
         function() {
             /*
