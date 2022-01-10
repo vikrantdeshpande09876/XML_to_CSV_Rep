@@ -1,1 +1,1 @@
-web: gunicorn app:xml_to_csv
+web: gunicorn "xml_to_csv:create_app()"
