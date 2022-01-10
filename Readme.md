@@ -39,7 +39,9 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 
 7.	Set the starting point for running this Flask application as run.py:
 ```
-> set flask_app=run.py
+> set flask_app=xml_to_csv
+
+> set flask_env=development
 ```
 
 8.	Execute the application:

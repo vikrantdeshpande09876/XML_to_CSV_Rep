@@ -9,17 +9,20 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href='https://fonts.googleapis.com/css?family=Lobster|Cabin' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> {%assets "css_source"%}
-        <link rel="stylesheet" href="{{ASSET_URL}}" type="text/css"> {%endassets%}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% assets "css_source" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">
+        {%endassets%}
         <link rel="icon" type="image/png" href="{{url_for('static', filename='D.png')}}">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
     <div id="header1">
-        <a href="http://www.deloittenet.com/" target="__blank"><img src="{{url_for('static', filename='Deloitte_White.png')}}" alt="Deloitte Logo" srcset="" /></a>
-        <br>
-        <h3>XML/XSD Parser</h3>
+        <a href="https://github.com/vikrantdeshpande09876/XML_to_CSV_Rep" target="__blank">
+            <img src="{{url_for('static', filename='XML_Data_format.png')}}" alt="XML/XSD Parser" srcset="" />
+            <h1 style="color:white; text-decoration:none;">XML/XSD Parser</h1>
+        </a>
     </div>
     <div id="loading">Loading</div>
 
@@ -48,11 +51,11 @@
         <div id="gototop"></div>
     </div>
     <div class="text-center panel">
-        <p>A Deloitte Firm-Initiative Project by <a href="https://codepen.io/vikrant098/" target="_blank" id="myself">Vikrant Deshpande</a></p>
+        <p>A Firm-Initiative Project by <a href="https://www.linkedin.com/in/vikrant-deshpande/" target="_blank" id="myself">Vikrant Deshpande</a></p>
     </div>
 
-    {%assets "javascript_source"%}
+    {% assets "javascript_source" %}
     <script src="{{ ASSET_URL }}"></script>
-    {%endassets%}
+    {% endassets %}
 
 </html>

@@ -21,7 +21,6 @@ img {
     opacity: 1;
     max-width: 8%;
     float: left;
-    margin-top: 10px;
     transition: 200ms ease-in-out;
 }
 

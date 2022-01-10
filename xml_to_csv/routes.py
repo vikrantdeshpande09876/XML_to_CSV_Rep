@@ -1,36 +1,36 @@
-from flask import Flask, render_template, redirect, request, flash, session, render_template_string, url_for
+from flask import Blueprint, render_template, redirect, request, flash, session, render_template_string, url_for, current_app
 from .forms import LoginForm
-from . import XML2CSV
 from .main import Main
 from re import sub
 import os,json
 
+bp = Blueprint('XML2CSV', __name__)
 
-@XML2CSV.route('/')
+@bp.route('/')
 def homepage_default():
-    return redirect(url_for('login'))
+    return redirect(url_for('XML2CSV.login'))
 
 
-@XML2CSV.route('/login',methods=['GET','POST'])
+@bp.route('/login',methods=['GET','POST'])
 def login():
     if 'validated' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('XML2CSV.home'))
     form=LoginForm()
     if form.validate_on_submit():
         main=Main()
-        fname=main.validate_user_creds(form.username.data,form.password.data,os.path.join(XML2CSV.config['STATIC_DIR'],'Login_creds.xlsx'))
+        fname=main.validate_user_creds(form.username.data,form.password.data,os.path.join(current_app.config['STATIC_DIR'],'Login_creds.xlsx'))
         if fname:
             session['validated']=True
             session['username']=form.username.data
             session['fname']=fname
-            return redirect(url_for('home'))
+            return redirect(url_for('XML2CSV.home'))
         else:
             flash('Incorrect username or password. Please try again.')
-            return redirect(url_for('login'))
+            return redirect(url_for('XML2CSV.login'))
     return render_template('Login.html',header='Sign In',form=form,title='Sign In | XML Parser')
 
 
-@XML2CSV.route('/home',methods=['GET','POST'])
+@bp.route('/home',methods=['GET','POST'])
 def home():
     if 'validated' in session:
         if request.method=='POST' and request.files:
@@ -41,7 +41,7 @@ def home():
                 filesep=request.form['filesep']
                 dest_filename=request.form['dest_filename']
                 print("DEST_FILENAME={}.".format(dest_filename))
-                path=os.path.join(XML2CSV.config['UPLOAD_DIR'],filename)
+                path=os.path.join(current_app.config['UPLOAD_DIR'],filename)
                 try:
                     selected_file.save(path)
                     session['path']=path
@@ -52,18 +52,18 @@ def home():
                     #flash(filename+" saved at: "+str(path))
                 except Exception as e:
                     flash("File couldn't be saved! \n"+e)
-                return redirect(url_for('displayTags'))
+                return redirect(url_for('XML2CSV.displayTags'))
             else:
                 flash('Ensure that a file is selected with the right format!')
-                return redirect(url_for('login'))
+                return redirect(url_for('XML2CSV.login'))
         return render_template('Home.html',title='Home | XML Parser',header='Home | XML Parser')
     else:
         flash('Sign in to view that page!')
-        return redirect(url_for('login'))
+        return redirect(url_for('XML2CSV.login'))
 
 
 
-@XML2CSV.route('/home/displayTags',methods=['GET','POST'])
+@bp.route('/home/displayTags',methods=['GET','POST'])
 def displayTags():
     if 'validated' in session:
         if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session and 'dest_filename' in session:
@@ -95,15 +95,15 @@ def displayTags():
         else:
             print("Something went wrong. Try to parse the file again.")
             flash("Something went wrong. Try to parse the file again.")
-            return redirect(url_for('home'))
+            return redirect(url_for('XML2CSV.home'))
     else:
         flash('Sign in to view that page!')
-        return redirect(url_for('login'))
+        return redirect(url_for('XML2CSV.login'))
     return render_template_string(overallstring, title="TagNames | XML Parser")
 
 
 
-@XML2CSV.route('/home/result',methods=['GET','POST'])
+@bp.route('/home/result',methods=['GET','POST'])
 def home_result():
     if 'validated' in session:
         if 'filename' in session and 'selected_ftype' in session and 'path' in session and 'filesep' in session and 'fname' in session and 'dest_filename' in session:
@@ -113,7 +113,7 @@ def home_result():
             res_array=json.loads(data)['res_array']
             try:
                 main=Main()
-                template_path=os.path.join(XML2CSV.config['UPLOAD_DIR'],'Config_Template.csv')
+                template_path=os.path.join(current_app.config['UPLOAD_DIR'],'Config_Template.csv')
                 template_df=main.retrieve_template_dataframe(template_path)
                 df=main.retrieve_final_dataframe(template_df,res_array)
                 main.write_dataframe_to_excel(sub(session['filename'],'',session['path']),session['filename'],session['dest_filename'],df)
@@ -122,20 +122,20 @@ def home_result():
             except Exception as e:
                 print("Could not write into config-excel File! Error is: "+str(e))
                 flash("Could not write into config-excel File! Error is: "+str(e))
-                return redirect(url_for('login'))
+                return redirect(url_for('XML2CSV.login'))
         else:
             print("Couldn't navigate to that page: Try selecting a file to parse again")
             flash("Couldn't navigate to that page: Try selecting a file to parse again")
-            return redirect(url_for('login'))
+            return redirect(url_for('XML2CSV.login'))
     else:
         flash('Sign in to view that page!')
-        return redirect(url_for('login'))
+        return redirect(url_for('XML2CSV.login'))
     return render_template('Result.html', title="Result | XML Parser")
 
 
 
 
-@XML2CSV.route('/result',methods=['GET','POST'])
+@bp.route('/result',methods=['GET','POST'])
 def result():
     if 'validated' in session:
         if 'session_msg' in session:
@@ -143,14 +143,14 @@ def result():
             fname=session['fname']
         else:
             flash('Something went wrong. Parse a file to view the results!')
-            return redirect(url_for('home'))
+            return redirect(url_for('XML2CSV.home'))
         if request.method=='POST':
             session.clear()
             session['validated']=True
             session['fname']=fname
             flash('Welcome back '+fname+'! Ready to parse another file?')
-            return redirect(url_for('home'))
+            return redirect(url_for('XML2CSV.home'))
     else:
         flash('Sign in to view that page!')
-        return redirect(url_for('login'))
+        return redirect(url_for('XML2CSV.login'))
     return render_template('Result.html', title="Result | XML Parser", header='Result | XML Parser',session_msg=session_msg)

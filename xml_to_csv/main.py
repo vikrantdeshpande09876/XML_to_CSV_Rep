@@ -1,4 +1,4 @@
-import re,pandas as pd, openpyxl
+import re, pandas as pd, openpyxl
 from lxml import etree as ET
 from flask import flash
 from datetime import datetime
@@ -27,7 +27,7 @@ class Main:
         return overallstring
 
 
-    def depthFirstXSD(self, node, depth, tagname):
+    def depthFirstXSD(self, node, depth, tagname, verbose=False):
         ''' DOCSTRING:  Traverse the XSD Nodes using DFS and create a string containing dynamic+clickable
                         nested checkboxes.
                         The inter-linking of checkboxes by using Parent-Child hierarchy will be handled in JS.
@@ -41,10 +41,10 @@ class Main:
         text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>' if 'element' in node.tag else ''
         if depth>temp_depth:
           text='<ul>'+text
-        #print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
+        if verbose:  print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
         temp_depth=depth
         for child in node.getchildren():
-          text += self.depthFirstXSD(child, depth+1,tagname)
+          text += self.depthFirstXSD(child, depth+1,tagname,verbose)
         if depth<temp_depth: 
           while depth!=temp_depth:
             text+='</ul>'
@@ -54,7 +54,7 @@ class Main:
 
 
 
-    def depthFirstXML(self, node, depth, tagname):
+    def depthFirstXML(self, node, depth, tagname, verbose=False):
         ''' DOCSTRING:  Traverse the XML Nodes using DFS and create a string containing dynamic+clickable
                         nested checkboxes.
                         The inter-linking of checkboxes by using Parent-Child hierarchy will be handled in JS.
@@ -71,10 +71,10 @@ class Main:
         text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.tag+'</b></label>'
         if depth>temp_depth:
           text='<ul>'+text
-        #print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
+        if verbose:  print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
         temp_depth=depth
         for child in node.getchildren():
-          text += self.depthFirstXML(child, depth+1,tagname)
+          text += self.depthFirstXML(child, depth+1,tagname,verbose)
         if depth<temp_depth: 
           while depth!=temp_depth:
             text+='</ul>'
@@ -91,6 +91,8 @@ class Main:
             return df
         except Exception as e:
             return "\nError reading the template dataframe from "+path+": "+e
+ 
+
  
     def retrieve_final_dataframe(self,template_df,arr_tag_nesting):
         ''' DOCSTRING:  Attempts to create Pandas-DataFrame object using the config file template, 
@@ -111,7 +113,7 @@ class Main:
     def write_dataframe_to_csv(self,directory,filename,df_tag_nesting,seperator=','):
         ''' DOCSTRING:  Attempts to write DataFrame into CSV file at the input Directory location
             INPUT:      Directory_Location, Name_of_File, DataFrame, Seperator
-            OUTPUT:     N/A '''
+            OUTPUT:     '''
         trimmed_filename=re.sub('.xsd','',re.sub('.xml','',filename))
         try:
             df_tag_nesting.to_csv(directory+'\\'+trimmed_filename+'_Config.csv',sep=seperator,index=True,index_label='ID')
