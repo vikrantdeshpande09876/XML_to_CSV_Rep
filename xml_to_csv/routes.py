@@ -129,7 +129,7 @@ def home_result():
                 template_df = main.retrieve_template_dataframe(template_path)
                 df = main.retrieve_final_dataframe(template_df,res_array)
                 main.write_dataframe_to_excel(sub(session['filename'],'',session['path']),session['filename'],session['dest_filename'],df)
-                session['session_msg']='Your config file was created successfully '+session['fname']+'!'
+                session['session_msg']='Your config file was created successfully '+session['fname']+'! It is placed on the server for the Pyspark job to pick it up.'
                 flash("Your dataframe was written successfully into the config.xlsx File!")
             except Exception as e:
                 print("Could not write into config-excel File! Error is: "+str(e))
