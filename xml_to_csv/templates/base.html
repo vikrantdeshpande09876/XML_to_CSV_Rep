@@ -24,6 +24,13 @@
             <h1 style="color:white; text-decoration:none;">XML/XSD Parser</h1>
         </a>
     </div>
+    {% if 'validated' in session %}
+    <ul style="text-align: right; margin-right:5%;">
+        <hr>
+        <div>Welcome {{ session['username'].capitalize() }}</div>
+        <div><a href="{{url_for('XML2CSV.logout')}}">Log out</a></div>
+    </ul>
+    {% endif %}
     <div id="loading">Loading</div>
 
     <body>

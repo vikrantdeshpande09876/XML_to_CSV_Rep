@@ -17,12 +17,22 @@ def login():
         return redirect(url_for('XML2CSV.home'))
     form=LoginForm()
     if form.validate_on_submit():
-        main=Main()
-        fname=main.validate_user_creds(form.username.data,form.password.data,os.path.join(current_app.config['STATIC_DIR'],'Login_creds.xlsx'))
+        print('1. You are here')
+        main = Main()
+        print('Current script path is',os.path.dirname(__file__))
+        print('Relative path to add is', 'static/Login_creds.xlsx')
+        login_file = os.path.join(os.path.dirname(__file__), 'static\Login_creds.xlsx')
+        #login_file = os.path.join(current_app.config['STATIC_DIR'], 'Login_creds.xlsx')
+        print(login_file)
+        fname = main.validate_user_creds(
+            form.username.data, 
+            form.password.data, 
+            login_file)
         if fname:
             session['validated']=True
             session['username']=form.username.data
             session['fname']=fname
+            print('2. You are here')
             return redirect(url_for('XML2CSV.home'))
         else:
             flash('Incorrect username or password. Please try again.')
@@ -30,9 +40,16 @@ def login():
     return render_template('Login.html',header='Sign In',form=form,title='Sign In | XML Parser')
 
 
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('XML2CSV.login'))
+
+
 @bp.route('/home',methods=['GET','POST'])
 def home():
     if 'validated' in session:
+        print('3. You are here')
         if request.method=='POST' and request.files:
             if str.lower('.'+request.form['ftype']) in request.files['filename'].filename:
                 selected_file=request.files['filename']

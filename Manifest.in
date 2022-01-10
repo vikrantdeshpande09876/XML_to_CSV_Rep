@@ -1,0 +1,4 @@
+include xml_to_csv/static/Login_creds.xlsx
+graft xml_to_csv/static
+graft xml_to_csv/templates
+global-exclude *.pyc
