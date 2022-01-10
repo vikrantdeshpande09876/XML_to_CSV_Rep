@@ -32,9 +32,9 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 > myvirtualenv\Scripts\activate
 ```
 
-6.	Install the application-specific dependencies by executing:
+6.	Install the application by executing:
 ```
-> pip install -r requirements.txt
+> pip install -e .
 ```
 
 7.	Set the starting point for running this Flask application as run.py:

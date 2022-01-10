@@ -15,7 +15,7 @@ def create_app(test_config=None):
     
     @app.route('/hello')
     def hello():
-        return "hello world. Starting-page for test."
+        return "Hello world. Landing-page for test."
     
     from . import routes
 

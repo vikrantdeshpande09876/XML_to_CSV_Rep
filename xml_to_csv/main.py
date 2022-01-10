@@ -20,10 +20,10 @@ class Main:
             OUTPUT:     HTML_String '''
         tree=ET.parse(path)
         if ftype=='XML':
-            overallstring=self.depthFirstXML(tree.getroot(),0,'')
+            overallstring = self.depthFirstXML(tree.getroot(),0,'')
         else:
-            overallstring=self.depthFirstXSD(tree.getroot(),0,'')
-        overallstring='<ul style="line-height:20%;">'+overallstring+'</ul>'
+            overallstring = self.depthFirstXSD(tree.getroot(),0,'')
+        overallstring = '<ul style="line-height:20%;">'+overallstring+'</ul>'
         return overallstring
 
 
@@ -35,20 +35,20 @@ class Main:
             OUTPUT:     HTML_String '''
         global temp_depth
         if tagname!='':
-          tagname=tagname+'.'+node.attrib['name'] if 'element' in node.tag else tagname
+          tagname = tagname+'.'+node.attrib['name'] if 'element' in node.tag else tagname
         else:
-          tagname=node.attrib['name'] if 'element' in node.tag else ''
-        text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>' if 'element' in node.tag else ''
+          tagname = node.attrib['name'] if 'element' in node.tag else ''
+        text = '<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.attrib['name']+'</b></label>' if 'element' in node.tag else ''
         if depth>temp_depth:
-          text='<ul>'+text
+          text = '<ul>'+text
         if verbose:  print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
-        temp_depth=depth
+        temp_depth = depth
         for child in node.getchildren():
           text += self.depthFirstXSD(child, depth+1,tagname,verbose)
         if depth<temp_depth: 
           while depth!=temp_depth:
-            text+='</ul>'
-            temp_depth-=1  
+            text += '</ul>'
+            temp_depth -= 1  
         return text+'</li>'
 
 
@@ -61,24 +61,24 @@ class Main:
             INPUT:      XML_Node_Element, Depth, Temporary_Tag_Name
             OUTPUT:     HTML_String '''
         global temp_depth
-        nsdict=node.nsmap
+        nsdict = node.nsmap
         for ns in nsdict.values():
-            node.tag=re.sub(r'\{'+ns+r'\}','',node.tag)
+            node.tag = re.sub(r'\{'+ns+r'\}','',node.tag)
         if tagname!='':
-          tagname+='.'+node.tag
+          tagname += '.'+node.tag
         else:
-          tagname=node.tag
-        text='<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.tag+'</b></label>'
+          tagname = node.tag
+        text = '<li><input type="checkbox" name="'+'MyPythonCheckbox'+'" id="'+tagname+'">'+'<label for="'+tagname+'"><b>'+node.tag+'</b></label>'
         if depth>temp_depth:
-          text='<ul>'+text
+          text = '<ul>'+text
         if verbose:  print(node.tag + ': has Depth: '+str(depth) + ', Temp_Depth: '+str(temp_depth)+' and id='+ tagname)
-        temp_depth=depth
+        temp_depth = depth
         for child in node.getchildren():
           text += self.depthFirstXML(child, depth+1,tagname,verbose)
         if depth<temp_depth: 
           while depth!=temp_depth:
-            text+='</ul>'
-            temp_depth-=1  
+            text += '</ul>'
+            temp_depth -= 1  
         return text+'</li>'
 
 
@@ -87,7 +87,7 @@ class Main:
             INPUT:      2D_Array
             OUTPUT:     DataFrame '''
         try:
-            df=pd.read_csv(path,encoding='utf-8')
+            df = pd.read_csv(path,encoding='utf-8')
             return df
         except Exception as e:
             return "\nError reading the template dataframe from "+path+": "+e
@@ -101,10 +101,10 @@ class Main:
             INPUT:      Template_DataFrame, Selected_XML_Tags_DataFrame
             OUTPUT:     Resultant_DataFrame '''
         try:
-            df_tag_nesting=pd.DataFrame(arr_tag_nesting,columns=['Variable','Value','Root_Tag','Primary_Key_Value'])
-            res_df=template_df.append(df_tag_nesting,ignore_index=True)
+            df_tag_nesting = pd.DataFrame(arr_tag_nesting,columns=['Variable','Value','Root_Tag','Primary_Key_Value'])
+            res_df = template_df.append(df_tag_nesting,ignore_index=True)
             print("RES_DF=")
-            print(res_df,end='\n\n')
+            print(res_df, end='\n\n')
             return res_df
         except Exception as e:
             return "\nError converting the 2d array into DataFrame: "+e
@@ -114,7 +114,7 @@ class Main:
         ''' DOCSTRING:  Attempts to write DataFrame into CSV file at the input Directory location
             INPUT:      Directory_Location, Name_of_File, DataFrame, Seperator
             OUTPUT:     '''
-        trimmed_filename=re.sub('.xsd','',re.sub('.xml','',filename))
+        trimmed_filename = re.sub('.xsd','',re.sub('.xml','',filename))
         try:
             df_tag_nesting.to_csv(directory+'\\'+trimmed_filename+'_Config.csv',sep=seperator,index=True,index_label='ID')
             print("\nCSV File created successfully!")
@@ -128,10 +128,10 @@ class Main:
             INPUT:      Directory_Location, Name_of_File, Destination_Config_filename, DataFrame
             OUTPUT:     N/A '''
         if dest_filename!='' and dest_filename is not None:
-          trimmed_filename=dest_filename.split('.')[0]
+          trimmed_filename = dest_filename.split('.')[0]
         else:
-          trimmed_filename=filename.split('.')[0]+'_Config'
-        trimmed_filename=trimmed_filename+'_'+datetime.now().strftime('%Y%m%d%H%M')
+          trimmed_filename = filename.split('.')[0]+'_Config'
+        trimmed_filename = trimmed_filename+'_'+datetime.now().strftime('%Y%m%d%H%M')
         try:
           with pd.ExcelWriter(directory+trimmed_filename+'.xlsx', engine='openpyxl') as writer:
             df_tag_nesting.to_excel(writer,sheet_name='Sheet1',index=True,index_label='ID')
@@ -146,7 +146,7 @@ class Main:
             INPUT:      Input_Username, Input_Password, Absolute_File_path_location
             OUTPUT:     Boolean '''
         try:
-          static_login_excel=pd.read_excel(static_file_path)
+          static_login_excel = pd.read_excel(static_file_path)
           if static_login_excel.loc[static_login_excel['username']==uname]['password'].values==password:
             fname = static_login_excel.loc[static_login_excel['username']==uname]['fname'].values[0]
             lastlogin = static_login_excel.loc[static_login_excel['username']==uname]['lastlogin'].values[0]
