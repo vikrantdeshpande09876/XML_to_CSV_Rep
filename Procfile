@@ -1,1 +1,1 @@
-web: gunicorn "xml_to_csv:create_app()"
+web: gunicorn xml_to_csv:wsgi
