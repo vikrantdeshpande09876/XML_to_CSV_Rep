@@ -7,7 +7,7 @@ This Flask app with an easy-to-use frontend is intended for generating a configu
 ## Overview
 
 <ol>
-<li>This Flask Application is live on <a href="https://xmlxsdparser.herokuapp.com/" target="blank">Heroku for demonstration purposes.</a></li>
+<li>This Flask Application is live on <a href="https://xmlxsdparser.herokuapp.com/" target="blank">Heroku</a> for demonstration purposes.</li>
 <li>After logging in, one must upload an XML/XSD File, select a file-format, a destination data delimiter (default: comma), and a filename for the final config file (default: original filename with timestamp).</li>
 <li>The hierarchy of parsed XML/XSD selectable tags is displayed and one needs to choose a section of these tag(s), and define the Primary key tag, Primary child tag, and Primary parent tag.</li>
 <li>

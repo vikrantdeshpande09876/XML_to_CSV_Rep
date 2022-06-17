@@ -1,0 +1,23 @@
+version: "1"
+services:
+  web:
+    # Give your image a static name
+    image: vikrant/flask-xmlxsdparser:v1
+
+    # Give your container a static name
+    container_name: flask-xmlxsdparser
+
+    build:
+      # Explicitly show docker-cli where your Dockerfile lies
+      context: ./
+
+      # Explicitly state the name of your dockerfile
+      dockerfile: Dockerfile
+
+    # Env file
+    env_file:
+      - .env
+      
+    # Expose ports
+    ports:
+      - 5000:5000
